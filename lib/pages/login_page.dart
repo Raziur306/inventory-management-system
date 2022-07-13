@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/pages/home_pages.dart';
+import '../utils/platform.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -36,8 +37,11 @@ class _LoginPageState extends State<LoginPage> {
       child: SingleChildScrollView(
         child: Form(
           key: _fromKey,
-          child: Column(children: [
-            Image.asset("assets/images/login_image.png"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            Image.asset("assets/images/login_image.png",width: 500 ,),
             // ignore_for_file: prefer_const_constructors
             SizedBox(
               height: 20.0,
@@ -51,32 +55,38 @@ class _LoginPageState extends State<LoginPage> {
               height: 26,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
               child: Column(
                 children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Enter your username",
-                        label: Text("Username:")),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Can't be empty";
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: "Enter your password",
-                      label: Text("Password"),
+                  SizedBox(
+                    width:Target.isPc()? 500:MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          hintText: "Enter your username",
+                          label: Text("Username:")),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Can't be empty";
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Can't be empty";
-                      }
-                      return null;
-                    },
+                  ),
+                  SizedBox(
+                    width:Target.isPc()? 500:MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Enter your password",
+                        label: Text("Password"),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Can't be empty";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: 20.0,
