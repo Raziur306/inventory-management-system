@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inventory_management_system/pages/dashboard_page.dart';
 import 'package:inventory_management_system/pages/home_pages.dart';
 import 'package:inventory_management_system/pages/inventory_page.dart';
 import 'package:inventory_management_system/pages/login_page.dart';
+import 'package:inventory_management_system/pages/orders_page.dart';
 import 'package:inventory_management_system/pages/products_page.dart';
 import 'package:inventory_management_system/pages/user_management_page.dart';
 import 'package:inventory_management_system/pages/vendor_management_page.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 
 void main(List<String> args) {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.vendorManagementRoute: (context) =>
             const VendorManagementPage(),
         MyRoutes.productsRoute: (context) => const ProductPage(),
+        MyRoutes.ordersRoute:(context)=>const OrderPage(),
       },
     );
   }

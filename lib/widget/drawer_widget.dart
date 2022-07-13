@@ -28,7 +28,9 @@ class MenuWidget extends StatelessWidget {
               "Dashboard",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            selected: MyRoutes.selectedIndex == 0,
             onTap: () {
+              MyRoutes.selectedIndex = 0;
               Navigator.pushReplacementNamed(context, MyRoutes.dashboardRoute);
             },
           ),
@@ -38,7 +40,9 @@ class MenuWidget extends StatelessWidget {
               "Inventory",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            selected: MyRoutes.selectedIndex == 1,
             onTap: () {
+              MyRoutes.selectedIndex = 1;
               Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
             },
           ),
@@ -48,8 +52,11 @@ class MenuWidget extends StatelessWidget {
               "Vendor Management",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            selected: MyRoutes.selectedIndex == 2,
             onTap: () {
-              Navigator.pushReplacementNamed(context, MyRoutes.vendorManagementRoute);
+              MyRoutes.selectedIndex = 2;
+              Navigator.pushReplacementNamed(
+                  context, MyRoutes.vendorManagementRoute);
             },
           ),
           ListTile(
@@ -58,7 +65,9 @@ class MenuWidget extends StatelessWidget {
               "Orders",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            selected: MyRoutes.selectedIndex == 3,
             onTap: () {
+              MyRoutes.selectedIndex = 3;
               Navigator.pushReplacementNamed(context, MyRoutes.ordersRoute);
             },
           ),
@@ -68,18 +77,22 @@ class MenuWidget extends StatelessWidget {
               "User Management",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            selected: MyRoutes.selectedIndex == 4,
             onTap: () {
-              Navigator.pushReplacementNamed(context, MyRoutes.userManagementRoute);
+              MyRoutes.selectedIndex = 4;
+              Navigator.pushReplacementNamed(
+                  context, MyRoutes.userManagementRoute);
             },
           ),
           ListTile(
-            leading:const Icon(CupertinoIcons.lock_open),
+            leading: const Icon(CupertinoIcons.lock_open),
             title: const Text(
               "Log out",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, MyRoutes.loginRoute);
+              MyRoutes.selectedIndex = 0;
             },
           )
         ],

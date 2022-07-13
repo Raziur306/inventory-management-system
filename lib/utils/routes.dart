@@ -7,4 +7,5 @@ class MyRoutes {
   static String userManagementRoute = "/userManagement";
   static String vendorManagementRoute = "/vendorManagement";
   static String productsRoute = "/products";
+  static var selectedIndex = 0;
 }
