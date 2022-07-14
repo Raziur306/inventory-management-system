@@ -31,7 +31,7 @@ class MenuWidget extends StatelessWidget {
             selected: MyRoutes.selectedIndex == 0,
             onTap: () {
               MyRoutes.selectedIndex = 0;
-              Navigator.pushReplacementNamed(context, MyRoutes.dashboardRoute);
+              Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
             },
           ),
           ListTile(

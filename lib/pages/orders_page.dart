@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/appbar_actions_menu.dart';
 import '../widget/drawer_widget.dart';
 class OrderPage extends StatelessWidget {
   const OrderPage({Key? key}) : super(key: key);
@@ -9,7 +10,9 @@ class OrderPage extends StatelessWidget {
     drawer: const MenuWidget(),
     appBar: AppBar(
       title: const Text("Orders"),
+    actions: AppbarActionMenu.action,
     ),
+
 
   );
 }

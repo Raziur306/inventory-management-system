@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:inventory_management_system/pages/dashboard_page.dart';
 import 'package:inventory_management_system/pages/home_pages.dart';
 import 'package:inventory_management_system/pages/inventory_page.dart';
 import 'package:inventory_management_system/pages/login_page.dart';
@@ -33,13 +32,12 @@ class MyApp extends StatelessWidget {
       routes: {
         MyRoutes.homeRoute: (context) => const HomePage(),
         MyRoutes.loginRoute: (context) => const LoginPage(),
-        MyRoutes.dashboardRoute: (context) => const DashboardPage(),
         MyRoutes.inventoryRoute: (context) => const InventoryPage(),
         MyRoutes.userManagementRoute: (context) => const UserManagementPage(),
         MyRoutes.vendorManagementRoute: (context) =>
             const VendorManagementPage(),
         MyRoutes.productsRoute: (context) => const ProductPage(),
-        MyRoutes.ordersRoute:(context)=>const OrderPage(),
+        MyRoutes.ordersRoute: (context) => const OrderPage(),
       },
     );
   }

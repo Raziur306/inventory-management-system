@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_widget.dart';
 
 class UserManagementPage extends StatelessWidget {
@@ -9,6 +10,7 @@ class UserManagementPage extends StatelessWidget {
     drawer: const MenuWidget(),
     appBar: AppBar(
       title: const Text("User Management"),
+      actions: AppbarActionMenu.action,
     ),
 
   );
