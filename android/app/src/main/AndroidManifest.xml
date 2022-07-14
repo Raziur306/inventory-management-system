@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.inventory_management_system">
+    package="com.inventory_management_system">
    <application
-        android:label="inventory_management_system"
+        android:label="Inventory Management System"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
