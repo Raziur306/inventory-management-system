@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 
-class MenuWidget extends StatelessWidget {
-  const MenuWidget({Key? key}) : super(key: key);
+class DrawerMenuWidget extends StatelessWidget {
+  const DrawerMenuWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class MenuWidget extends StatelessWidget {
                       backgroundImage:
                           AssetImage("assets/images/avatar.jpg")))),
           ListTile(
-            leading: Icon(CupertinoIcons.home),
+            leading: const Icon(CupertinoIcons.home),
             title: const Text(
               "Dashboard",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -35,7 +35,7 @@ class MenuWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(CupertinoIcons.checkmark_shield),
+            leading: const Icon(CupertinoIcons.checkmark_shield),
             title: const Text(
               "Inventory",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -47,7 +47,7 @@ class MenuWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(CupertinoIcons.gear),
+            leading: const Icon(CupertinoIcons.gear),
             title: const Text(
               "Vendor Management",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -60,7 +60,7 @@ class MenuWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(CupertinoIcons.cart),
+            leading: const Icon(CupertinoIcons.cart),
             title: const Text(
               "Orders",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -72,7 +72,7 @@ class MenuWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(CupertinoIcons.person_2),
+            leading: const Icon(CupertinoIcons.person_2),
             title: const Text(
               "User Management",
               style: TextStyle(fontWeight: FontWeight.bold),

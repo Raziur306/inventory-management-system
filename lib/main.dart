@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inventory_management_system/pages/customer_page.dart';
 import 'package:inventory_management_system/pages/home_pages.dart';
 import 'package:inventory_management_system/pages/inventory_page.dart';
 import 'package:inventory_management_system/pages/login_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             const VendorManagementPage(),
         MyRoutes.productsRoute: (context) => const ProductPage(),
         MyRoutes.ordersRoute: (context) => const OrderPage(),
+        MyRoutes.customerRoutes:(context)=>const CustomerPage()
       },
     );
   }
