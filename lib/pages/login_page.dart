@@ -11,11 +11,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _changeButton = false;
-  final _fromKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   moveToHome(BuildContext context) async {
 
-    if (_fromKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       setState(() {
         _changeButton = true;
       });
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       color: Colors.white,
       child: SingleChildScrollView(
         child: Form(
-          key: _fromKey,
+          key: _formKey,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 
+final _formKey = GlobalKey<FormState>();
+
 class DrawerMenuWidget extends StatelessWidget {
   const DrawerMenuWidget({Key? key}) : super(key: key);
 
@@ -79,9 +81,7 @@ class DrawerMenuWidget extends StatelessWidget {
             ),
             selected: MyRoutes.selectedIndex == 4,
             onTap: () {
-              MyRoutes.selectedIndex = 4;
-              Navigator.pushReplacementNamed(
-                  context, MyRoutes.userManagementRoute);
+              showAuthDialog(context);
             },
           ),
           ListTile(
@@ -98,5 +98,71 @@ class DrawerMenuWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  //user auth dialog
+
+  void showAuthDialog(BuildContext context) async {
+    String userPassInput = "";
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Verify Yourself'),
+              content: Form(
+                key: _formKey,
+                child: TextFormField(
+                  onChanged: (value) {
+                    _isFormValid();
+                    userPassInput = value;
+                  },
+                  decoration: const InputDecoration(
+                      hintText: "Enter Authentication Password"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Can't be empty";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red)),
+                  onPressed: () {
+                    Navigator.pop(context, "Cancel");
+                  },
+                  child: const Text(
+                    'CANCEL',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.green),
+                  ),
+                  onPressed: () {
+                    if (userPassInput.isEmpty) {
+                    } else {
+                      Navigator.pop(context, "Confirm");
+                      Navigator.pushReplacementNamed(
+                          context, MyRoutes.userManagementRoute);
+                      MyRoutes.selectedIndex = 4;
+                    }
+                  },
+                  child: const Text(
+                    'CONFIRM',
+                    style: (TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
+            ));
+  }
+
+  //form key validation
+  bool _isFormValid() {
+    return _formKey.currentState!.validate();
   }
 }
