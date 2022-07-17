@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_management_system/utils/data.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 import '../utils/platform.dart';
+import 'package:firedart/firedart.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,19 +14,30 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _changeButton = false;
   final _formKey = GlobalKey<FormState>();
+  final _firestore = Firestore(SavedData.projectId);
+  String _userName = "";
+  String _userPass = "";
 
   moveToHome(BuildContext context) async {
-
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _changeButton = true;
-      });
-      await Future.delayed(Duration(seconds: 1));
-      await  Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
-      setState(() {
-        _changeButton = false;
-      });
-      // _fromKey.currentState!.reset();
+      var map = await Firestore.instance.collection("users").get();
+      if (map.isEmpty) {
+        print("not found");
+      } else {
+        if (map.first.map["username"] == _userName &&
+            map.first.map["password"] == _userPass) {
+          SavedData.name = map.first.map[""]
+
+          setState(() {
+            _changeButton = true;
+          });
+          await Future.delayed(Duration(seconds: 1));
+          await Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
+          setState(() {
+            _changeButton = false;
+          });
+        }
+      }
     }
   }
 
@@ -39,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset("assets/images/login_image.png", width: 500,),
+                Image.asset(
+                  "assets/images/login_image.png",
+                  width: 500,
+                ),
                 // ignore_for_file: prefer_const_constructors
                 SizedBox(
                   height: 20.0,
@@ -53,16 +69,18 @@ class _LoginPageState extends State<LoginPage> {
                   height: 26,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15, horizontal: 50),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                   child: Column(
                     children: [
                       SizedBox(
-                        width: Target.isPc() ? 500 : MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: Target.isPc()
+                            ? 500
+                            : MediaQuery.of(context).size.width,
                         child: TextFormField(
+                          onChanged: (value) {
+                            _userName = value;
+                          },
                           decoration: InputDecoration(
                               hintText: "Enter your username",
                               label: Text("Username:")),
@@ -75,11 +93,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(
-                        width: Target.isPc() ? 500 : MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: Target.isPc()
+                            ? 500
+                            : MediaQuery.of(context).size.width,
                         child: TextFormField(
+                          onChanged: (value) {
+                            _userPass = value;
+                          },
                           obscureText: true,
                           decoration: InputDecoration(
                             hintText: "Enter your password",
@@ -110,16 +130,16 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.center,
                             child: _changeButton
                                 ? Icon(
-                              Icons.done,
-                              color: Colors.white,
-                            )
+                                    Icons.done,
+                                    color: Colors.white,
+                                  )
                                 : Text(
-                              "Login",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                                    "Login",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                           ),
                         ),
                       )

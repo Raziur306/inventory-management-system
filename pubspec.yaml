@@ -35,6 +35,8 @@ dependencies:
   google_fonts: ^3.0.1
   #firedart
   firedart: ^0.9.0+1
+  #oktoast
+  oktoast: ^3.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
