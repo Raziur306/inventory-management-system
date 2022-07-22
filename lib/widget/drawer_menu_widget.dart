@@ -1,5 +1,8 @@
+import 'package:firedart/firedart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inventory_management_system/utils/data.dart';
+import 'package:inventory_management_system/utils/firestore_keys.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -12,16 +15,16 @@ class DrawerMenuWidget extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          const DrawerHeader(
+          DrawerHeader(
               padding: EdgeInsets.zero,
               child: UserAccountsDrawerHeader(
                   margin: EdgeInsets.zero,
-                  accountEmail: Text("example@gmail.com"),
+                  accountEmail: Text(SavedData.email),
                   accountName: Text(
-                    "Md Raziur Rahaman Ronju",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    SavedData.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  currentAccountPicture: CircleAvatar(
+                  currentAccountPicture: const CircleAvatar(
                       backgroundImage:
                           AssetImage("assets/images/avatar.jpg")))),
           ListTile(
@@ -142,9 +145,15 @@ class DrawerMenuWidget extends StatelessWidget {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.green),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (userPassInput.isEmpty) {
                     } else {
+                      var map = await Firestore.instance
+                          .collection("users")
+                          .document(SavedData.documentId)
+                          .get();
+                      print(map);
+
                       Navigator.pop(context, "Confirm");
                       Navigator.pushReplacementNamed(
                           context, MyRoutes.userManagementRoute);

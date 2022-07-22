@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utils/data.dart';
+import 'package:inventory_management_system/utils/firestore_keys.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 import '../utils/platform.dart';
 import 'package:firedart/firedart.dart';
@@ -24,18 +25,24 @@ class _LoginPageState extends State<LoginPage> {
       if (map.isEmpty) {
         print("not found");
       } else {
-        if (map.first.map["username"] == _userName &&
-            map.first.map["password"] == _userPass) {
-          SavedData.name = map.first.map[""]
-
-          setState(() {
-            _changeButton = true;
-          });
-          await Future.delayed(Duration(seconds: 1));
-          await Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
-          setState(() {
-            _changeButton = false;
-          });
+        for (var element in map) {
+          if (element[DataKey.userName] == _userName &&
+              element[DataKey.password] == _userPass) {
+            SavedData.name = element[DataKey.name];
+            SavedData.admin = element[DataKey.name] == "true";
+            SavedData.email = element[DataKey.email];
+            SavedData.userId = element[DataKey.userId];
+            SavedData.documentId = element.id;
+            setState(() {
+              _changeButton = true;
+            });
+            await Future.delayed(Duration(seconds: 1));
+            await Navigator.pushReplacementNamed(context, MyRoutes.homeRoute);
+            setState(() {
+              _changeButton = false;
+            });
+            break;
+          }
         }
       }
     }
