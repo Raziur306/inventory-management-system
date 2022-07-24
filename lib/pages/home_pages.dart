@@ -14,396 +14,476 @@ class HomePage extends StatelessWidget {
           // title: const Text("Inventory Management System" ,style: TextStyle(color: Colors.black),),
           actions: AppbarActionMenu.actionFun(context)),
       body: Container(
-        padding: const EdgeInsets.all(10),
-        child: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 200,
-              crossAxisCount: 4,
-              mainAxisSpacing: 30,
-              crossAxisSpacing: 30),
+        padding: const EdgeInsets.all(20),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .50,
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisExtent: 200,
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 30,
+                    crossAxisSpacing: 30),
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
                       child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
                                   )
                                 ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "+10",
+                                          style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.black),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: Colors.white12),
+                                          child: const Icon(CupertinoIcons.news,
+                                              size: 50),
+                                        )
+                                      ]),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    "Total Shelfs",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  )
+                                ]),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
             Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                elevation: 5,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "+10",
-                                    style: TextStyle(
-                                        fontSize: 80,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.black),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white12),
-                                    child: const Icon(CupertinoIcons.news,
-                                        size: 50),
-                                  )
-                                ]),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              "Total Shelfs",
-                              style:
-                              TextStyle(fontSize: 20, color: Colors.black),
-                            )
-                          ]),
-                    )
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: const Text(
+                      "LOW STOCK ITEM LIST",
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 30),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(25),
+                    decoration: const BoxDecoration(
+                        color: Colors.blueGrey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          "Product Name",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Model Number",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Total Quality",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Selling Price",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Buying Price",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListView(
+
+
+                  )
+                ],
               ),
             )
           ],
