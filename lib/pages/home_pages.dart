@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.cube_box_fill,
                                               size: 50),
                                         )
                                       ]),
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.group_solid,
                                               size: 50),
                                         )
                                       ]),
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Suppliers",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -155,7 +155,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.person_solid,
                                               size: 50),
                                         )
                                       ]),
@@ -163,7 +163,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Total Buyers",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -203,7 +203,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.cart_badge_minus,
                                               size: 50),
                                         )
                                       ]),
@@ -211,7 +211,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Total Sells",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -251,7 +251,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.cart_badge_plus,
                                               size: 50),
                                         )
                                       ]),
@@ -259,7 +259,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Number of Purchase",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -299,7 +299,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.money_dollar_circle,
                                               size: 50),
                                         )
                                       ]),
@@ -307,7 +307,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Total Purchase Amount",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -347,7 +347,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.money_dollar_circle_fill,
                                               size: 50),
                                         )
                                       ]),
@@ -355,7 +355,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Total sell Amount",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -395,7 +395,7 @@ class HomePage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               color: Colors.white12),
-                                          child: const Icon(CupertinoIcons.news,
+                                          child: const Icon(CupertinoIcons.bag_fill_badge_plus,
                                               size: 50),
                                         )
                                       ]),
@@ -403,7 +403,7 @@ class HomePage extends StatelessWidget {
                                     height: 30,
                                   ),
                                   const Text(
-                                    "Total Shelfs",
+                                    "Total Profit",
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   )
@@ -478,10 +478,6 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  ListView(
-
-
                   )
                 ],
               ),
