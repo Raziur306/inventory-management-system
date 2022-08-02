@@ -2,14 +2,21 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utils/data.dart';
-import 'package:inventory_management_system/utils/firestore_keys.dart';
 import 'package:inventory_management_system/utils/routes.dart';
 
 final _formKey = GlobalKey<FormState>();
+late final Function(String)? validators;
+bool loginFailed = false;
+const String errorText = "";
 
-class DrawerMenuWidget extends StatelessWidget {
+class DrawerMenuWidget extends StatefulWidget {
   const DrawerMenuWidget({Key? key}) : super(key: key);
 
+  @override
+  State<DrawerMenuWidget> createState() => _DrawerMenu();
+}
+
+class _DrawerMenu extends State<DrawerMenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -107,26 +114,43 @@ class DrawerMenuWidget extends StatelessWidget {
 
   void showAuthDialog(BuildContext context) async {
     String userPassInput = "";
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: const Text('Verify Yourself'),
-              content: Form(
-                key: _formKey,
-                child: TextFormField(
-                  onChanged: (value) {
-                    _isFormValid();
-                    userPassInput = value;
-                  },
-                  decoration: const InputDecoration(
-                      hintText: "Enter Authentication Password"),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Can't be empty";
-                    }
-                    return null;
-                  },
-                ),
+              content: SizedBox(
+                height: 90,
+                width: 300,
+                child: Column(children: [
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      obscureText: true,
+                      onChanged: (value) {
+                        _isFormValid();
+                        userPassInput = value;
+                      },
+                      decoration: const InputDecoration(
+                          errorText: errorText,
+                          hintText: "Enter Authentication Password"),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Can't be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: loginFailed,
+                    child: const Text(
+                      "Invalid User/Password",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ]),
               ),
               actions: <Widget>[
                 TextButton(
@@ -145,19 +169,9 @@ class DrawerMenuWidget extends StatelessWidget {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.green),
                   ),
-                  onPressed: () async {
-                    if (userPassInput.isEmpty) {
-                    } else {
-                      var map = await Firestore.instance
-                          .collection("users")
-                          .document(SavedData.documentId)
-                          .get();
-                      print(map);
-
-                      Navigator.pop(context, "Confirm");
-                      Navigator.pushReplacementNamed(
-                          context, MyRoutes.userManagementRoute);
-                      MyRoutes.selectedIndex = 4;
+                  onPressed: () {
+                    if (userPassInput.isNotEmpty) {
+                      isAdminPermission(userPassInput, context);
                     }
                   },
                   child: const Text(
@@ -170,7 +184,31 @@ class DrawerMenuWidget extends StatelessWidget {
             ));
   }
 
-  //form key validation
+//check for admin or not
+  void isAdminPermission(String? value, BuildContext context) async {
+    var map = await Firestore.instance
+        .collection("users")
+        .document(SavedData.documentId)
+        .get();
+    if (map.map["admin"] && map.map["admin_pass"] == value) {
+      Navigator.pop(context, "Confirm");
+      Navigator.pushReplacementNamed(context, MyRoutes.userManagementRoute);
+      MyRoutes.selectedIndex = 4;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        setState(() {
+          loginFailed = false;
+        });
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+        setState(() {
+          loginFailed = true;
+        });
+      });
+    }
+  }
+
+//form key validation
   bool _isFormValid() {
     return _formKey.currentState!.validate();
   }

@@ -37,6 +37,8 @@ dependencies:
   firedart: ^0.9.0+1
   #oktoast
   oktoast: ^3.2.0
+  #forcustom switch
+  flutter_switch: ^0.3.2
 
 
   # The following adds the Cupertino Icons font to your application.
