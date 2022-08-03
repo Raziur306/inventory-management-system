@@ -44,20 +44,7 @@ class UserTilesClass {
                 color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const Spacer(),
-          FlutterSwitch(
-            height: 20.0,
-            width: 40.0,
-            padding: 4.0,
-            toggleSize: 15.0,
-            borderRadius: 10.0,
-            activeColor: Colors.red,
-            value: isAdmin,
-            onToggle: (value) {
-              // setState(() {
-              //   isAdmin = value;
-              // });
-            },
-          ),
+         Text(isAdmin?"Admin":"Not an Admin"),
           const Spacer(),
           const Text(
             "Edit",
