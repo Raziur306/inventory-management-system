@@ -133,6 +133,7 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
                       },
                       decoration: const InputDecoration(
                           errorText: errorText,
+                          prefixIcon: Icon(Icons.lock),
                           hintText: "Enter Authentication Password"),
                       validator: (value) {
                         if (value!.isEmpty) {

@@ -205,5 +205,75 @@ userEditDialog(BuildContext context, String id) {
       context: context,
       builder: (context) => AlertDialog(
             title: Text(id.isEmpty ? "Add New User" : "Update User Data"),
+            content: Wrap(
+              children:[
+
+
+              Container(
+                width: MediaQuery.of(context).size.width / 4,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                padding: const EdgeInsets.only(left: 100, right: 100),
+                child: Column(children: [
+                  Form(
+                      child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                            errorText: errorText, hintText: "User Name"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            errorText: errorText, hintText: "Full Name"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.phone),
+                            errorText: errorText, hintText: "Phone Number"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            errorText: errorText, hintText: "Password"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  )),
+                  Visibility(
+                    visible: loginFailed,
+                    child: const Text(
+                      "Invalid User/Password",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ]),
+              ),]
+            ),
           ));
 }

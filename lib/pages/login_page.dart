@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                             _userName = value;
                           },
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
                               hintText: "Enter your username",
                               label: Text("Username:")),
                           validator: (value) {
@@ -109,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           obscureText: true,
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
                             hintText: "Enter your password",
                             label: Text("Password"),
                           ),
