@@ -6,4 +6,5 @@ class DataKey {
   static const name = "name";
   static const password = "password";
   static const userId = "user_id";
+  static const phone="phone";
 }

@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           if (element[DataKey.userName] == _userName &&
               element[DataKey.password] == _userPass) {
             SavedData.name = element[DataKey.name];
-            SavedData.admin = element[DataKey.name] == "true";
+            SavedData.admin = element[DataKey.admin] == "true";
             SavedData.email = element[DataKey.email];
             SavedData.userId = element[DataKey.userId];
             SavedData.documentId = element.id;
