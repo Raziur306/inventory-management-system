@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:firedart/firestore/firestore.dart';
+import 'package:firedart/generated/google/protobuf/struct.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/model/userModel.dart';
@@ -36,7 +40,7 @@ class _ManagementState extends State<UserManagementPage> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(CupertinoIcons.add),
           onPressed: () {
-            userEditDialog(context, "");
+            userEditDialog(context,"",-1);
           },
         ),
       );
@@ -160,7 +164,9 @@ getBody(BuildContext context) {
                                   InkWell(
                                     onTap: () => {
                                       userEditDialog(
-                                          context, userList[index].firebaseId)
+                                          context,
+                                          userList[index].firebaseId,
+                                          index)
                                     },
                                     child: const Icon(CupertinoIcons.pencil,
                                         size: 30),
@@ -200,15 +206,12 @@ Future _getUserList() async {
 }
 
 //user edit dialog
-userEditDialog(BuildContext context, String id) {
+userEditDialog(BuildContext context, id, int index) {
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
             title: Text(id.isEmpty ? "Add New User" : "Update User Data"),
-            content: Wrap(
-              children:[
-
-
+            content: Wrap(children: [
               Container(
                 width: MediaQuery.of(context).size.width / 4,
                 decoration:
@@ -219,20 +222,11 @@ userEditDialog(BuildContext context, String id) {
                       child: Column(
                     children: [
                       TextFormField(
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                            errorText: errorText, hintText: "User Name"),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Can't be empty";
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
+                        initialValue: userList[index].userName,
                         decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.person),
-                            errorText: errorText, hintText: "Full Name"),
+                            errorText: errorText,
+                            hintText: "User name"),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Can't be empty";
@@ -241,9 +235,24 @@ userEditDialog(BuildContext context, String id) {
                         },
                       ),
                       TextFormField(
+                        initialValue: userList[index].name,
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.perm_identity),
+                            errorText: errorText,
+                            hintText: "Full name"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: userList[index].phone,
                         decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.phone),
-                            errorText: errorText, hintText: "Phone Number"),
+                            errorText: errorText,
+                            hintText: "Phone number"),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Can't be empty";
@@ -252,9 +261,11 @@ userEditDialog(BuildContext context, String id) {
                         },
                       ),
                       TextFormField(
+                        initialValue: userList[index].password,
                         decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.lock),
-                            errorText: errorText, hintText: "Password"),
+                            errorText: errorText,
+                            hintText: "Password"),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Can't be empty";
@@ -273,7 +284,7 @@ userEditDialog(BuildContext context, String id) {
                     ),
                   ),
                 ]),
-              ),]
-            ),
+              ),
+            ]),
           ));
 }
