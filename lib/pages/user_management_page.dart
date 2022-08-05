@@ -373,6 +373,7 @@ class _ManagementState extends State<UserManagementPage> {
                                         deleteUser(userList[index].firebaseId)
                                       },
                                       style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
                                           shape: const StadiumBorder(),
                                           padding: const EdgeInsets.all(20)),
                                       child: const Text(
