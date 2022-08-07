@@ -189,8 +189,9 @@ class _ManagementState extends State<UserManagementPage> {
                                         userEditDialog(context,
                                             userList[index].firebaseId, index)
                                       },
-                                      child: const Icon(CupertinoIcons.pencil,
-                                          size: 30),
+                                      child: const Icon(
+                                        Icons.edit,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -234,8 +235,13 @@ class _ManagementState extends State<UserManagementPage> {
                             children: [
                               Visibility(
                                   visible: index != -1,
-                                  child: Text("User #ID: "
-                                      "${index != -1 ? userList[index].userId : null}")),
+                                  child: Text(
+                                    "User #ID: "
+                                    "${index != -1 ? userList[index].userId : null}",
+                                    style: const TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                               TextFormField(
                                 initialValue: index != -1
                                     ? userList[index].userName
@@ -373,7 +379,7 @@ class _ManagementState extends State<UserManagementPage> {
                                         deleteUser(userList[index].firebaseId)
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.red,
+                                          primary: Colors.red,
                                           shape: const StadiumBorder(),
                                           padding: const EdgeInsets.all(20)),
                                       child: const Text(

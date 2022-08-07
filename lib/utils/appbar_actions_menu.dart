@@ -17,7 +17,7 @@ class AppbarActionMenu {
           child: const Text(
             "Products",
             style: TextStyle(
-              // color: Colors.white,
+               color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold),
           ),
@@ -36,7 +36,7 @@ class AppbarActionMenu {
           child: const Text(
             "Customer",
             style: TextStyle(
-              //   color: Colors.white,
+                color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold),
           ),
@@ -56,7 +56,7 @@ class AppbarActionMenu {
           child: const Text(
             "Vendor",
             style: TextStyle(
-              //  color: Colors.white,
+               color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold),
           ),
