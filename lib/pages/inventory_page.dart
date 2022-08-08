@@ -7,6 +7,7 @@ import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 
 import '../model/vendorModel.dart';
+import '../utils/routes.dart';
 
 //global variable
 final _formKey = GlobalKey<FormState>();
@@ -25,6 +26,7 @@ class _InventoryPage extends State<InventoryPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (inventoryList.isNotEmpty) loadingIcon = false;
     _getInventoryList();
     _getVendorList();
   }
@@ -279,7 +281,9 @@ class _InventoryPage extends State<InventoryPage> {
                   ),
                 ),
               ),
-            )
+            ),
+            Visibility(
+                visible: loadingIcon, child: const CircularProgressIndicator())
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -380,24 +384,31 @@ class _InventoryPage extends State<InventoryPage> {
                                   return null;
                                 },
                               ),
-                              DropdownButton(
-                                  hint: const Text("Select Vendor"),
-                                  value: selectedVendor,
-                                  items: vendorList
-                                      .map((item) => DropdownMenuItem(
-                                          value: item,
-                                          child: Text(
-                                              "${item.name} (#ID ${item.id})")))
-                                      .toList(),
-                                  onChanged: (item) => {
-                                        setState(() {
-                                          selectedVendor =
-                                              item as VendorDataModel?;
-                                        }),
-                                        inventoryMap["vendorId"] =
-                                            (item as VendorDataModel).id,
-                                        inventoryMap["vendor"] = (item).name
-                                      }),
+                              Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Text("Vendor: "),
+                                    const SizedBox(width: 20),
+                                    DropdownButton(
+                                        hint: const Text("Select Vendor"),
+                                        value: selectedVendor,
+                                        items: vendorList
+                                            .map((item) => DropdownMenuItem(
+                                                value: item,
+                                                child: Text(
+                                                    "${item.name} (#ID ${item.id})")))
+                                            .toList(),
+                                        onChanged: (item) => {
+                                              setState(() {
+                                                selectedVendor =
+                                                    item as VendorDataModel?;
+                                              }),
+                                              inventoryMap["vendorId"] =
+                                                  (item as VendorDataModel).id,
+                                              inventoryMap["vendor"] =
+                                                  (item).name
+                                            }),
+                                  ]),
                               Row(
                                 children: [
                                   const Text("Items: "),
@@ -454,7 +465,10 @@ class _InventoryPage extends State<InventoryPage> {
                               ElevatedButton(
                                 onPressed: () => {
                                   if (_formKey.currentState!.validate())
-                                    {_saveToDB(data, inventoryMap)}
+                                    {
+                                      _saveToDB(data, inventoryMap),
+                                      _popDialog(context)
+                                    }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const StadiumBorder(),
@@ -489,40 +503,17 @@ class _InventoryPage extends State<InventoryPage> {
                   TextButton(
                     child: const Text("Cancel"),
                     onPressed: () {
-                      Navigator.pop(context);
+                      _popDialog(context);
                     },
                   ),
                   TextButton(
                     child: const Text("Confirm"),
                     onPressed: () {
                       _deleteInventoryItem(firebaseId);
-                      Navigator.pop(context);
+                      _popDialog(context);
                     },
                   ),
                 ]));
-  }
-
-  //fetching inventory data
-  Future _getInventoryList() async {
-    var map = await Firestore.instance.collection("inventory").get();
-    inventoryList.clear();
-    List<InventoryDataModel> apiList = [];
-    for (var element in map) {
-      apiList.add(InventoryDataModel(
-          element["id"],
-          element.id,
-          element["model"],
-          element["name"],
-          element["description"],
-          element["vendor"],
-          element["country"],
-          element["items"].toString(),
-          element["vendorId"]));
-    }
-    setState(() {
-      inventoryList.clear();
-      inventoryList = apiList;
-    });
   }
 
   //get vendor item
@@ -542,6 +533,7 @@ class _InventoryPage extends State<InventoryPage> {
           element["country"]));
     }
     setState(() {
+      loadingIcon = false;
       vendorList.clear();
       vendorList = apiList;
     });
@@ -553,9 +545,10 @@ class _InventoryPage extends State<InventoryPage> {
     setState(() {
       loadingIcon = true;
     });
+
+    inventoryList.clear();
     _getVendorList();
     _getInventoryList();
-    Navigator.pop(context);
   }
 
   void _saveToDB(
@@ -569,7 +562,6 @@ class _InventoryPage extends State<InventoryPage> {
       });
       _getVendorList();
       _getInventoryList();
-      Navigator.pop(context);
     } else {
       await Firestore.instance
           .collection("inventory")
@@ -581,7 +573,40 @@ class _InventoryPage extends State<InventoryPage> {
       });
       _getVendorList();
       _getInventoryList();
-      Navigator.pop(context);
+    }
+  }
+
+  //fetching inventory data
+  Future _getInventoryList() async {
+    var map = await Firestore.instance.collection("inventory").get();
+    inventoryList.clear();
+    List<InventoryDataModel> apiList = [];
+    apiList.clear();
+    for (var element in map) {
+      apiList.add(InventoryDataModel(
+          element["id"],
+          element.id,
+          element["model"],
+          element["name"],
+          element["description"],
+          element["vendor"],
+          element["country"],
+          element["items"].toString(),
+          element["vendorId"]));
+    }
+    setState(() {
+      print("Calling");
+      loadingIcon = false;
+      inventoryList.clear();
+      inventoryList = apiList;
+    });
+  }
+
+  void _popDialog(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.of(context, rootNavigator: true).pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
     }
   }
 }

@@ -4,6 +4,8 @@ import 'package:inventory_management_system/model/vendorModel.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 
+import '../utils/routes.dart';
+
 //variable
 List<VendorDataModel> vendorList = [];
 final _formKey = GlobalKey<FormState>();
@@ -73,112 +75,109 @@ class _VendorManagementPage extends State<VendorManagementPage> {
               child: Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width),
-                        child: DataTable(
-                            columns: const [
-                              DataColumn(
-                                  label: Text(
-                                "#ID",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Name",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Email",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Phone",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Company Name",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Company Website",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Country",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              )),
-                              DataColumn(label: Text("")),
-                            ],
-                            rows: vendorList
-                                .map((data) => DataRow(cells: [
-                                      DataCell(Text("#${data.id}",
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.blue,
-                                          ))),
-                                      DataCell(Text(
-                                        data.name,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Text(
-                                        data.email,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Text(
-                                        data.phone,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Text(
-                                        data.companyName,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Text(
-                                        data.companyWebsite,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Text(
-                                        data.country,
-                                        style: const TextStyle(fontSize: 15),
-                                      )),
-                                      DataCell(Row(
-                                        children: [
-                                          InkWell(
-                                              onTap: () => {
-                                                    _createNewOrUpdateVendor(
-                                                        data)
-                                                  },
-                                              child: const Icon(Icons.edit,
-                                                  color: Colors.green)),
-                                          const SizedBox(width: 10),
-                                          InkWell(
-                                              onTap: () => {
-                                                    _showDeleteConfirmDialog(
-                                                        data.firebaseId)
-                                                  },
-                                              child: const Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                              )),
-                                        ],
-                                      ))
-                                    ]))
-                                .toList()),
-                      ),
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width),
+                      child: DataTable(
+                          columns: const [
+                            DataColumn(
+                                label: Text(
+                              "#ID",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Name",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Email",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Phone",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Company Name",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Company Website",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "Country",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(label: Text("")),
+                          ],
+                          rows: vendorList
+                              .map((data) => DataRow(cells: [
+                                    DataCell(Text("#${data.id}",
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.blue,
+                                        ))),
+                                    DataCell(Text(
+                                      data.name,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Text(
+                                      data.email,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Text(
+                                      data.phone,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Text(
+                                      data.companyName,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Text(
+                                      data.companyWebsite,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Text(
+                                      data.country,
+                                      style: const TextStyle(fontSize: 15),
+                                    )),
+                                    DataCell(Row(
+                                      children: [
+                                        InkWell(
+                                            onTap: () => {
+                                                  _createNewOrUpdateVendor(data)
+                                                },
+                                            child: const Icon(Icons.edit,
+                                                color: Colors.green)),
+                                        const SizedBox(width: 10),
+                                        InkWell(
+                                            onTap: () => {
+                                                  _showDeleteConfirmDialog(
+                                                      data.firebaseId, context)
+                                                },
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            )),
+                                      ],
+                                    ))
+                                  ]))
+                              .toList()),
                     ),
                   ),
                 ),
@@ -220,7 +219,7 @@ class _VendorManagementPage extends State<VendorManagementPage> {
   }
 
   //delete vendor dialog
-  void _showDeleteConfirmDialog(String firebaseId) {
+  void _showDeleteConfirmDialog(String firebaseId, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -236,27 +235,27 @@ class _VendorManagementPage extends State<VendorManagementPage> {
                   TextButton(
                     child: const Text("Cancel"),
                     onPressed: () {
-                      Navigator.pop(context);
+                      _popDialog(context);
                     },
                   ),
                   TextButton(
                     child: const Text("Confirm"),
                     onPressed: () {
-                      _deleteVendor(firebaseId);
-                      Navigator.pop(context);
+                      _deleteVendor(firebaseId, context);
+                      _popDialog(context);
                     },
                   ),
                 ]));
   }
 
   //delete vendor
-  void _deleteVendor(String firebaseId) async {
+  void _deleteVendor(String firebaseId, context) async {
     Firestore.instance.collection("vendors").document(firebaseId).delete();
     setState(() {
       loadingIcon = true;
     });
     _getVendorList();
-    Navigator.pop(context);
+    _popDialog(context);
   }
 
   //new VendorDialog
@@ -383,7 +382,7 @@ class _VendorManagementPage extends State<VendorManagementPage> {
                               ElevatedButton(
                                 onPressed: () => {
                                   if (_formKey.currentState!.validate())
-                                    {_saveToDB(data, vendorMap)}
+                                    {_saveToDB(data, vendorMap, context)}
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const StadiumBorder(),
@@ -402,7 +401,8 @@ class _VendorManagementPage extends State<VendorManagementPage> {
             ));
   }
 
-  void _saveToDB(VendorDataModel? data, Map<String, dynamic> vendorMap) async {
+  void _saveToDB(VendorDataModel? data, Map<String, dynamic> vendorMap,
+      BuildContext context) async {
     if (data == null) {
       vendorMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
       await Firestore.instance.collection("vendors").add(vendorMap);
@@ -410,7 +410,6 @@ class _VendorManagementPage extends State<VendorManagementPage> {
         loadingIcon = true;
       });
       _getVendorList();
-      Navigator.pop(context);
     } else {
       await Firestore.instance
           .collection("vendors")
@@ -420,7 +419,15 @@ class _VendorManagementPage extends State<VendorManagementPage> {
       setState(() {
         loadingIcon = true;
       });
-      Navigator.pop(context);
+    }
+    _popDialog(context);
+  }
+
+ void _popDialog(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.of(context, rootNavigator: true).pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, MyRoutes.vendorManagementRoute);
     }
   }
 }
