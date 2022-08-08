@@ -7,6 +7,7 @@ import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 //variable
 List<VendorDataModel> vendorList = [];
 final _formKey = GlobalKey<FormState>();
+var loadingIcon = true;
 
 class VendorManagementPage extends StatefulWidget {
   const VendorManagementPage({Key? key}) : super(key: key);
@@ -19,6 +20,11 @@ class _VendorManagementPage extends State<VendorManagementPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (vendorList.isNotEmpty) {
+      setState(() {
+        loadingIcon = false;
+      });
+    }
     _getVendorList();
   }
 
@@ -153,7 +159,8 @@ class _VendorManagementPage extends State<VendorManagementPage> {
                                         children: [
                                           InkWell(
                                               onTap: () => {
-                                                    _createNewOrUpdateVendor(data)
+                                                    _createNewOrUpdateVendor(
+                                                        data)
                                                   },
                                               child: const Icon(Icons.edit,
                                                   color: Colors.green)),
@@ -176,6 +183,10 @@ class _VendorManagementPage extends State<VendorManagementPage> {
                   ),
                 ),
               ),
+            ),
+            Visibility(
+              visible: loadingIcon,
+              child: const CircularProgressIndicator(),
             )
           ],
         ),
@@ -204,6 +215,7 @@ class _VendorManagementPage extends State<VendorManagementPage> {
     setState(() {
       vendorList.clear();
       vendorList = apiList;
+      loadingIcon = false;
     });
   }
 
@@ -240,6 +252,9 @@ class _VendorManagementPage extends State<VendorManagementPage> {
   //delete vendor
   void _deleteVendor(String firebaseId) async {
     Firestore.instance.collection("vendors").document(firebaseId).delete();
+    setState(() {
+      loadingIcon = true;
+    });
     _getVendorList();
     Navigator.pop(context);
   }
@@ -391,6 +406,9 @@ class _VendorManagementPage extends State<VendorManagementPage> {
     if (data == null) {
       vendorMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
       await Firestore.instance.collection("vendors").add(vendorMap);
+      setState(() {
+        loadingIcon = true;
+      });
       _getVendorList();
       Navigator.pop(context);
     } else {
@@ -399,6 +417,9 @@ class _VendorManagementPage extends State<VendorManagementPage> {
           .document(data.firebaseId)
           .update(vendorMap);
       _getVendorList();
+      setState(() {
+        loadingIcon = true;
+      });
       Navigator.pop(context);
     }
   }
