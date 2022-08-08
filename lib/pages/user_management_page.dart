@@ -34,7 +34,17 @@ class _ManagementState extends State<UserManagementPage> {
   Widget build(BuildContext context) => Scaffold(
         drawer: const DrawerMenuWidget(),
         appBar: AppBar(
-          title: const Text("User Management"),
+          backgroundColor:  Colors.greenAccent,
+          iconTheme: const IconThemeData(color: Colors.white),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[Colors.purple, Colors.blue],
+              ),
+            ),
+          ),
           actions: AppbarActionMenu.actionFun(context),
         ),
         body: getBody(context),
@@ -46,7 +56,6 @@ class _ManagementState extends State<UserManagementPage> {
         ),
       );
 
-  //fetching data
   Future _getUserList() async {
     var map = await Firestore.instance.collection("users").get();
     userList.clear();
@@ -70,143 +79,269 @@ class _ManagementState extends State<UserManagementPage> {
   }
 
   getBody(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(25),
-              decoration: const BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    "#ID",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "User Name",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Full Name",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Admin Permission",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Edit",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+   return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[Colors.purple, Colors.blue],
               ),
             ),
-            const SizedBox(
-              height: 10,
+            padding: const EdgeInsets.only(top: 5, bottom: 17),
+            child: const Text(
+              "User Management",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40),
             ),
-            Flexible(
-                child: FutureBuilder(
-                    future: _getUserList(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (userList.isNotEmpty) {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: userList.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsets.all(30),
-                                margin: const EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.black12,
-                                    borderRadius: BorderRadius.circular(20)),
-                                width: MediaQuery.of(context).size.width,
-                                height: 80,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      userList[index].userId,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      userList[index].userName,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      userList[index].name,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      userList[index].email,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(userList[index].isAdmin.toString()),
-                                    InkWell(
-                                      onTap: () => {
-                                        userEditDialog(context,
-                                            userList[index].firebaseId, index)
-                                      },
-                                      child: const Icon(
-                                        Icons.edit,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            });
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    })),
-          ],
-        ));
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          child: Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width),
+                    child: DataTable(
+                        columns: const [
+                          DataColumn(
+                              label: Text(
+                                "#ID",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )),
+                          DataColumn(
+                              label: Text(
+                                "Username",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )),
+                          DataColumn(
+                              label: Text(
+                                "Full Name",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )),
+                          DataColumn(
+                              label: Text(
+                                "Email",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )),
+                          DataColumn(
+                              label: Text(
+                                "Admin Permission",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )),
+                          DataColumn(
+                              label: Text(
+                                "Edit",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                          ),
+                        ],
+                        rows: userList.map((data) => DataRow(cells: [
+                          DataCell(Text("#${data.userId}",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.blue,
+                              ))),
+                          DataCell(Text(
+                            data.userName,
+                            style: const TextStyle(fontSize: 15),
+                          )),
+                          DataCell(Text(
+                            data.name,
+                            style: const TextStyle(fontSize: 15),
+                          )),
+                          DataCell(Text(
+                            data.email,
+                            style: const TextStyle(fontSize: 15),
+                          )),
+                          DataCell(Text(
+                            data.isAdmin.toString(),
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                          ),
+                          DataCell(
+                              InkWell(
+                                  onTap: () => {
+                                  // userEditDialog(context, data.firebaseId,)
+                                  },
+                                  child: const Icon(Icons.edit),
+                              )
+
+    // InkWell(
+    //                                   onTap: () => {
+    //                                     userEditDialog(context,
+    //                                         userList[index].firebaseId, index)
+    //                                   },
+    //                                   child: const Icon(
+    //                                     Icons.edit,
+    //                                   ),
+                          ),
+
+                        ]))
+                            .toList()),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+    // return Column(
+    //     padding: const EdgeInsets.only(left: 30, right: 30),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       mainAxisAlignment: MainAxisAlignment.start,
+    //       children: [
+    //         Container(
+    //           padding: const EdgeInsets.all(25),
+    //           decoration: const BoxDecoration(
+    //               color: Colors.blueGrey,
+    //               borderRadius: BorderRadius.only(
+    //                   topLeft: Radius.circular(15),
+    //                   topRight: Radius.circular(15))),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: const [
+    //               Text(
+    //                 "#ID",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //               Text(
+    //                 "User Name",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //               Text(
+    //                 "Full Name",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //               Text(
+    //                 "Email",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //               Text(
+    //                 "Admin Permission",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //               Text(
+    //                 "Edit",
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 16,
+    //                     fontWeight: FontWeight.bold),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         Flexible(
+    //             child: FutureBuilder(
+    //                 future: _getUserList(),
+    //                 builder: (BuildContext context, AsyncSnapshot snapshot) {
+    //                   if (userList.isNotEmpty) {
+    //                     return ListView.builder(
+    //                         shrinkWrap: true,
+    //                         itemCount: userList.length,
+    //                         itemBuilder: (context, index) {
+    //                           return Container(
+    //                             padding: const EdgeInsets.all(30),
+    //                             margin: const EdgeInsets.only(bottom: 10),
+    //                             decoration: BoxDecoration(
+    //                                 color: Colors.black12,
+    //                                 borderRadius: BorderRadius.circular(20)),
+    //                             width: MediaQuery.of(context).size.width,
+    //                             height: 80,
+    //                             child: Row(
+    //                               mainAxisAlignment:
+    //                                   MainAxisAlignment.spaceBetween,
+    //                               children: [
+    //                                 Text(
+    //                                   userList[index].userId,
+    //                                   style: const TextStyle(
+    //                                       color: Colors.black,
+    //                                       fontSize: 15,
+    //                                       fontWeight: FontWeight.bold),
+    //                                 ),
+    //                                 Text(
+    //                                   userList[index].userName,
+    //                                   style: const TextStyle(
+    //                                       color: Colors.black,
+    //                                       fontSize: 15,
+    //                                       fontWeight: FontWeight.bold),
+    //                                 ),
+    //                                 Text(
+    //                                   userList[index].name,
+    //                                   style: const TextStyle(
+    //                                       color: Colors.black,
+    //                                       fontSize: 15,
+    //                                       fontWeight: FontWeight.bold),
+    //                                 ),
+    //                                 Text(
+    //                                   userList[index].email,
+    //                                   style: const TextStyle(
+    //                                       color: Colors.black,
+    //                                       fontSize: 15,
+    //                                       fontWeight: FontWeight.bold),
+    //                                 ),
+    //                                 Text(userList[index].isAdmin.toString()),
+    //                                 InkWell(
+    //                                   onTap: () => {
+    //                                     userEditDialog(context,
+    //                                         userList[index].firebaseId, index)
+    //                                   },
+    //                                   child: const Icon(
+    //                                     Icons.edit,
+    //                                   ),
+    //                                 ),
+    //                               ],
+    //                             ),
+    //                           );
+    //                         });
+    //                   } else if (snapshot.hasError) {
+    //                     return Text('Error: ${snapshot.error}');
+    //                   } else {
+    //                     return const Center(
+    //                       child: CircularProgressIndicator(),
+    //                     );
+    //                   }
+    //                 })),
+    //       ],
+    //     ),
+    // );
   }
 
   //user edit dialog
@@ -423,7 +558,7 @@ class _ManagementState extends State<UserManagementPage> {
 
   void saveOrUpdate(int existing, Map<String, dynamic> userMap, context) async {
     if (existing == -1) {
-      userMap["user_id"] = DateTime.now().millisecondsSinceEpoch.toString();
+      userMap[DataKey.userId] = DateTime.now().millisecondsSinceEpoch.toString();
       userMap[DataKey.admin] = isAdmin;
       await Firestore.instance.collection("users").add(userMap);
       _getUserList();

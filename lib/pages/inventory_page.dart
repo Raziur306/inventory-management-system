@@ -411,7 +411,7 @@ class _InventoryPage extends State<InventoryPage> {
                                   ]),
                               Row(
                                 children: [
-                                  const Text("Items: "),
+                                  const Text("Quantity: "),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -430,7 +430,7 @@ class _InventoryPage extends State<InventoryPage> {
                                   Container(
                                     decoration:
                                         BoxDecoration(border: Border.all()),
-                                    width: 60,
+                                    width: 50,
                                     child: TextFormField(
                                       key: Key(item.toString()),
                                       textAlign: TextAlign.center,
