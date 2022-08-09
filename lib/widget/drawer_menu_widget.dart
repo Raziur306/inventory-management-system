@@ -59,7 +59,7 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
             },
           ),
           ListTile(
-            leading: const Icon(CupertinoIcons.cart_fill_badge_plus),
+            leading: const Icon(CupertinoIcons.cart_badge_plus),
             title: const Text(
               "Purchases",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -84,7 +84,7 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
             },
           ),
           ListTile(
-            leading: const Icon(CupertinoIcons.cart),
+            leading: const Icon(CupertinoIcons.cart_badge_minus),
             title: const Text(
               "Sales",
               style: TextStyle(fontWeight: FontWeight.bold),
