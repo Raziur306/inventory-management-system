@@ -59,6 +59,18 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
             },
           ),
           ListTile(
+            leading: const Icon(CupertinoIcons.cart_fill_badge_plus),
+            title: const Text(
+              "Purchases",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            selected: MyRoutes.selectedIndex == 1,
+            onTap: () {
+              MyRoutes.selectedIndex = 1;
+              Navigator.pushReplacementNamed(context, MyRoutes.puchaseRoute);
+            },
+          ),
+          ListTile(
             leading: const Icon(CupertinoIcons.gear),
             title: const Text(
               "Vendor Management",
@@ -74,13 +86,13 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
           ListTile(
             leading: const Icon(CupertinoIcons.cart),
             title: const Text(
-              "Orders",
+              "Sales",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             selected: MyRoutes.selectedIndex == 3,
             onTap: () {
               MyRoutes.selectedIndex = 3;
-              Navigator.pushReplacementNamed(context, MyRoutes.ordersRoute);
+              Navigator.pushReplacementNamed(context, MyRoutes.salesRoute);
             },
           ),
           ListTile(

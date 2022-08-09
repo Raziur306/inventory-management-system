@@ -5,8 +5,7 @@ import 'package:inventory_management_system/pages/customer_page.dart';
 import 'package:inventory_management_system/pages/home_pages.dart';
 import 'package:inventory_management_system/pages/inventory_page.dart';
 import 'package:inventory_management_system/pages/login_page.dart';
-import 'package:inventory_management_system/pages/orders_page.dart';
-import 'package:inventory_management_system/pages/products_page.dart';
+import 'package:inventory_management_system/pages/salesPage.dart';
 import 'package:inventory_management_system/pages/user_management_page.dart';
 import 'package:inventory_management_system/pages/vendor_management_page.dart';
 import 'package:inventory_management_system/utils/data.dart';
@@ -38,10 +37,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.loginRoute: (context) => const LoginPage(),
         MyRoutes.inventoryRoute: (context) => const InventoryPage(),
         MyRoutes.userManagementRoute: (context) => const UserManagementPage(),
-        MyRoutes.vendorManagementRoute: (context) =>
-            const VendorManagementPage(),
-        MyRoutes.productsRoute: (context) => const ProductPage(),
-        MyRoutes.ordersRoute: (context) => const OrderPage(),
+        MyRoutes.vendorManagementRoute: (context) => const VendorManagementPage(),
+        MyRoutes.salesRoute: (context) => const salesManagementPage(),
         MyRoutes.customerRoutes: (context) => const CustomerPage()
       },
     );

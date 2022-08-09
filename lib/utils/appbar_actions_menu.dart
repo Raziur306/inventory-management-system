@@ -12,7 +12,7 @@ class AppbarActionMenu {
           ),
           onPressed: () {
             MyRoutes.selectedIndex=-1;
-            Navigator.pushReplacementNamed(context, MyRoutes.productsRoute);
+            Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
           },
           child: const Text(
             "Products",
