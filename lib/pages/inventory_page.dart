@@ -595,7 +595,6 @@ class _InventoryPage extends State<InventoryPage> {
           element["vendorId"]));
     }
     setState(() {
-      print("Calling");
       loadingIcon = false;
       inventoryList.clear();
       inventoryList = apiList;

@@ -3,7 +3,7 @@ class MyRoutes {
   static String homeRoute = "/home";
   static String inventoryRoute = "/inventory";
   static String salesRoute = "/sales";
-  static String puchaseRoute = "/purchase";
+  static String purchaseRoute = "/purchase";
   static String userManagementRoute = "/userManagement";
   static String vendorManagementRoute = "/vendorManagement";
   static String customerRoutes = "/customer";

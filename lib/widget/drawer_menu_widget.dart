@@ -64,10 +64,10 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
               "Purchases",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            selected: MyRoutes.selectedIndex == 1,
+            selected: MyRoutes.selectedIndex == 2,
             onTap: () {
-              MyRoutes.selectedIndex = 1;
-              Navigator.pushReplacementNamed(context, MyRoutes.puchaseRoute);
+              MyRoutes.selectedIndex = 2;
+              Navigator.pushReplacementNamed(context, MyRoutes.purchaseRoute);
             },
           ),
           ListTile(
@@ -76,9 +76,9 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
               "Vendor Management",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            selected: MyRoutes.selectedIndex == 2,
+            selected: MyRoutes.selectedIndex == 3,
             onTap: () {
-              MyRoutes.selectedIndex = 2;
+              MyRoutes.selectedIndex = 3;
               Navigator.pushReplacementNamed(
                   context, MyRoutes.vendorManagementRoute);
             },
@@ -89,9 +89,9 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
               "Sales",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            selected: MyRoutes.selectedIndex == 3,
+            selected: MyRoutes.selectedIndex ==4,
             onTap: () {
-              MyRoutes.selectedIndex = 3;
+              MyRoutes.selectedIndex = 4;
               Navigator.pushReplacementNamed(context, MyRoutes.salesRoute);
             },
           ),
@@ -101,7 +101,7 @@ class _DrawerMenu extends State<DrawerMenuWidget> {
               "User Management",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            selected: MyRoutes.selectedIndex == 4,
+            selected: MyRoutes.selectedIndex == 5,
             onTap: () {
               showAuthDialog(context);
             },
