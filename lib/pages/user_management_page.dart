@@ -10,6 +10,7 @@ import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 
 import '../utils/firestore_keys.dart';
+import '../utils/routes.dart';
 
 class UserManagementPage extends StatefulWidget {
   const UserManagementPage({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class _ManagementState extends State<UserManagementPage> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(CupertinoIcons.add),
           onPressed: () {
-            userEditDialog(context, "", -1);
+            userEditDialog(context, null);
           },
         ),
       );
@@ -147,7 +148,7 @@ class _ManagementState extends State<UserManagementPage> {
                               )),
                           DataColumn(
                               label: Text(
-                                "Edit",
+                                "",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -176,23 +177,25 @@ class _ManagementState extends State<UserManagementPage> {
                             style: const TextStyle(fontSize: 15),
                           ),
                           ),
-                          DataCell(
+                          DataCell(Row(
+                            children: [
                               InkWell(
                                   onTap: () => {
-                                  // userEditDialog(context, data.firebaseId,)
+                                    userEditDialog(context,data)
                                   },
-                                  child: const Icon(Icons.edit),
-                              )
-
-    // InkWell(
-    //                                   onTap: () => {
-    //                                     userEditDialog(context,
-    //                                         userList[index].firebaseId, index)
-    //                                   },
-    //                                   child: const Icon(
-    //                                     Icons.edit,
-    //                                   ),
-                          ),
+                                  child: const Icon(Icons.edit,
+                                      color: Colors.green)),
+                              const SizedBox(width: 10),
+                              InkWell(
+                                  onTap: () => {
+                                    deleteUser(data.firebaseId)
+                                  },
+                                  child: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  )),
+                            ],
+                          ))
 
                         ]))
                             .toList()),
@@ -204,159 +207,17 @@ class _ManagementState extends State<UserManagementPage> {
         )
       ],
     );
-    // return Column(
-    //     padding: const EdgeInsets.only(left: 30, right: 30),
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       mainAxisAlignment: MainAxisAlignment.start,
-    //       children: [
-    //         Container(
-    //           padding: const EdgeInsets.all(25),
-    //           decoration: const BoxDecoration(
-    //               color: Colors.blueGrey,
-    //               borderRadius: BorderRadius.only(
-    //                   topLeft: Radius.circular(15),
-    //                   topRight: Radius.circular(15))),
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: const [
-    //               Text(
-    //                 "#ID",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //               Text(
-    //                 "User Name",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //               Text(
-    //                 "Full Name",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //               Text(
-    //                 "Email",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //               Text(
-    //                 "Admin Permission",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //               Text(
-    //                 "Edit",
-    //                 style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         Flexible(
-    //             child: FutureBuilder(
-    //                 future: _getUserList(),
-    //                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //                   if (userList.isNotEmpty) {
-    //                     return ListView.builder(
-    //                         shrinkWrap: true,
-    //                         itemCount: userList.length,
-    //                         itemBuilder: (context, index) {
-    //                           return Container(
-    //                             padding: const EdgeInsets.all(30),
-    //                             margin: const EdgeInsets.only(bottom: 10),
-    //                             decoration: BoxDecoration(
-    //                                 color: Colors.black12,
-    //                                 borderRadius: BorderRadius.circular(20)),
-    //                             width: MediaQuery.of(context).size.width,
-    //                             height: 80,
-    //                             child: Row(
-    //                               mainAxisAlignment:
-    //                                   MainAxisAlignment.spaceBetween,
-    //                               children: [
-    //                                 Text(
-    //                                   userList[index].userId,
-    //                                   style: const TextStyle(
-    //                                       color: Colors.black,
-    //                                       fontSize: 15,
-    //                                       fontWeight: FontWeight.bold),
-    //                                 ),
-    //                                 Text(
-    //                                   userList[index].userName,
-    //                                   style: const TextStyle(
-    //                                       color: Colors.black,
-    //                                       fontSize: 15,
-    //                                       fontWeight: FontWeight.bold),
-    //                                 ),
-    //                                 Text(
-    //                                   userList[index].name,
-    //                                   style: const TextStyle(
-    //                                       color: Colors.black,
-    //                                       fontSize: 15,
-    //                                       fontWeight: FontWeight.bold),
-    //                                 ),
-    //                                 Text(
-    //                                   userList[index].email,
-    //                                   style: const TextStyle(
-    //                                       color: Colors.black,
-    //                                       fontSize: 15,
-    //                                       fontWeight: FontWeight.bold),
-    //                                 ),
-    //                                 Text(userList[index].isAdmin.toString()),
-    //                                 InkWell(
-    //                                   onTap: () => {
-    //                                     userEditDialog(context,
-    //                                         userList[index].firebaseId, index)
-    //                                   },
-    //                                   child: const Icon(
-    //                                     Icons.edit,
-    //                                   ),
-    //                                 ),
-    //                               ],
-    //                             ),
-    //                           );
-    //                         });
-    //                   } else if (snapshot.hasError) {
-    //                     return Text('Error: ${snapshot.error}');
-    //                   } else {
-    //                     return const Center(
-    //                       child: CircularProgressIndicator(),
-    //                     );
-    //                   }
-    //                 })),
-    //       ],
-    //     ),
-    // );
   }
 
   //user edit dialog
-  userEditDialog(BuildContext context, id, int index) {
-    //isAdmin
-    isAdmin = index != -1 ? userList[index].isAdmin : false;
-    //userName Exist
-    String errorMessage = "Invalid Username";
+  userEditDialog(BuildContext context,[ UserDataModel? data]) {
+    isAdmin = data?.isAdmin;
     bool errorMessageVisibility = false;
     Map<String, dynamic> userMap = {};
-
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(id.isEmpty ? "Add New User" : "Update User Data"),
+              title: Text(data==null? "Add New User" : "Update User Data"),
               content: StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                 return Wrap(alignment: WrapAlignment.start, children: [
@@ -369,18 +230,15 @@ class _ManagementState extends State<UserManagementPage> {
                           child: Column(
                             children: [
                               Visibility(
-                                  visible: index != -1,
+                                  visible: data!=null,
                                   child: Text(
-                                    "User #ID: "
-                                    "${index != -1 ? userList[index].userId : null}",
+                                    "User #ID: ${data?.userId}",
                                     style: const TextStyle(
                                         color: Colors.blue,
                                         fontWeight: FontWeight.bold),
                                   )),
                               TextFormField(
-                                initialValue: index != -1
-                                    ? userList[index].userName
-                                    : null,
+                                initialValue: data?.userName,
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.person),
                                     errorText: errorText,
@@ -395,8 +253,7 @@ class _ManagementState extends State<UserManagementPage> {
                                 },
                               ),
                               TextFormField(
-                                initialValue:
-                                    index != -1 ? userList[index].name : null,
+                                initialValue:data?.name,
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.perm_identity),
                                     errorText: errorText,
@@ -412,7 +269,7 @@ class _ManagementState extends State<UserManagementPage> {
                               ),
                               TextFormField(
                                 initialValue:
-                                    index != -1 ? userList[index].phone : null,
+                                   data?.phone,
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.phone),
                                     errorText: errorText,
@@ -428,7 +285,7 @@ class _ManagementState extends State<UserManagementPage> {
                               ),
                               TextFormField(
                                 initialValue:
-                                    index != -1 ? userList[index].email : null,
+                                   data?.email,
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.phone),
                                     errorText: errorText,
@@ -443,9 +300,7 @@ class _ManagementState extends State<UserManagementPage> {
                                 },
                               ),
                               TextFormField(
-                                initialValue: index != -1
-                                    ? userList[index].password
-                                    : null,
+                                initialValue: data?.password,
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.lock),
                                     errorText: errorText,
@@ -484,9 +339,7 @@ class _ManagementState extends State<UserManagementPage> {
                               Visibility(
                                 visible: isAdmin,
                                 child: TextFormField(
-                                  initialValue: index != -1
-                                      ? userList[index].adminPass
-                                      : null,
+                                  initialValue: data?.adminPass,
                                   decoration: const InputDecoration(
                                       prefixIcon: Icon(Icons.lock),
                                       errorText: errorText,
@@ -508,10 +361,10 @@ class _ManagementState extends State<UserManagementPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Visibility(
-                                    visible: index != -1,
+                                    visible: data!=null,
                                     child: ElevatedButton(
                                       onPressed: () => {
-                                        deleteUser(userList[index].firebaseId)
+                                        deleteUser(data!.firebaseId)
                                       },
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.red,
@@ -527,13 +380,13 @@ class _ManagementState extends State<UserManagementPage> {
                                   ElevatedButton(
                                     onPressed: () => {
                                       if (_formKey.currentState!.validate())
-                                        {saveOrUpdate(index, userMap, context)}
+                                        {saveOrUpdate(data, userMap, context)}
                                     },
                                     style: ElevatedButton.styleFrom(
                                         shape: const StadiumBorder(),
                                         padding: const EdgeInsets.all(20)),
                                     child: Text(
-                                      index == -1 ? "Submit" : "Update",
+                                     data==null ? "Submit" : "Update",
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),
@@ -556,27 +409,40 @@ class _ManagementState extends State<UserManagementPage> {
             ));
   }
 
-  void saveOrUpdate(int existing, Map<String, dynamic> userMap, context) async {
-    if (existing == -1) {
+  void saveOrUpdate(UserDataModel? data, Map<String, dynamic> userMap, context) async {
+    if (data==null) {
       userMap[DataKey.userId] = DateTime.now().millisecondsSinceEpoch.toString();
       userMap[DataKey.admin] = isAdmin;
       await Firestore.instance.collection("users").add(userMap);
       _getUserList();
-      Navigator.pop(context);
+      _popDialog(context);
     } else {
       userMap[DataKey.admin] = isAdmin;
       await Firestore.instance
           .collection("users")
-          .document(userList[existing].firebaseId)
+          .document(data.firebaseId)
           .update(userMap);
       _getUserList();
-      Navigator.pop(context);
+      _popDialog(context);
     }
   }
 
   void deleteUser(String firebaseId) async {
     Firestore.instance.collection("users").document(firebaseId).delete();
     _getUserList();
-    Navigator.pop(context);
+    _popDialog(context);
   }
+
+
+  void _popDialog(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.of(context, rootNavigator: true).pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, MyRoutes.userManagementRoute);
+    }
+  }
+
 }
+
+
+
