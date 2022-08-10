@@ -117,6 +117,11 @@ class _InventoryPage extends State<InventoryPage> {
                           )),
                           DataColumn(
                               label: Text(
+                            "Unit Price",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
                             "Status",
                             style: TextStyle(fontSize: 18),
                           ))
@@ -152,7 +157,11 @@ class _InventoryPage extends State<InventoryPage> {
                                     data.items,
                                     style: const TextStyle(fontSize: 15),
                                   )),
-                                  DataCell(data.items == 0
+                                  DataCell(Text(
+                                    data.unitPrice,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(int.parse(data.items) == 0
                                       ? (Container(
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
@@ -271,7 +280,6 @@ class _InventoryPage extends State<InventoryPage> {
         ),
       );
 
-
   //fetching inventory data
   Future _getInventoryList() async {
     var map = await Firestore.instance.collection("inventory").get();
@@ -288,7 +296,8 @@ class _InventoryPage extends State<InventoryPage> {
           element["vendor"],
           element["country"],
           element["quantity"].toString(),
-          element["vendorId"]));
+          element["vendorId"],
+          element["unitPrice"]));
     }
     setState(() {
       loadingIcon = false;

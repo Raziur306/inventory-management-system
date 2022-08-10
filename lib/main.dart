@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.inventoryRoute: (context) => const InventoryPage(),
         MyRoutes.userManagementRoute: (context) => const UserManagementPage(),
         MyRoutes.vendorManagementRoute: (context) => const VendorManagementPage(),
-        MyRoutes.salesRoute: (context) => const salesManagementPage(),
+        MyRoutes.salesRoute: (context) => const SalesManagementPage(),
         MyRoutes.customerRoutes: (context) => const CustomerPage(),
         MyRoutes.purchaseRoute:(context)=>const PurchasePage()
       },

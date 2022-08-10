@@ -1,57 +1,49 @@
 import 'package:firedart/firestore/firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory_management_system/model/salesModel.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:inventory_management_system/model/customerModel.dart';
+import 'package:inventory_management_system/model/inventoryModel.dart';
+import 'package:inventory_management_system/model/slaesDataModel.dart';
+import 'package:inventory_management_system/pages/vendor_management_page.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
-import 'package:inventory_management_system/utils/routes.dart';
+import '../utils/routes.dart';
 
-//variable
-List<salesDataModel> salesList = [];
+//global variable
 final _formKey = GlobalKey<FormState>();
-var loadingIcon = true;
+List<customerDataModel> customerList = [];
+List<InventoryDataModel> inventoryList = [];
+List<SalesDataModel> salesList = [];
+int editabeQuantity = 0;
+int totalAmountState = 0;
+int profitPerUnit = 0;
+int perUnitPrice = 0;
+int existingQuantity = 0;
+String inventoryFireId="";
 
-
-class salesManagementPage extends StatefulWidget {
-  const salesManagementPage({Key? key}) : super(key: key);
+class SalesManagementPage extends StatefulWidget {
+  const SalesManagementPage({Key? key}) : super(key: key);
 
   @override
-  State<salesManagementPage> createState() => _salesManagementPage();
+  State<SalesManagementPage> createState() => _SalesManagementPage();
 }
 
-class _salesManagementPage extends State<salesManagementPage> {
+class _SalesManagementPage extends State<SalesManagementPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (salesList.isNotEmpty) {
-      setState(() {
-        loadingIcon = false;
-      });
-    }
-    _getSalesList();
+    if (customerList.isNotEmpty) loadingIcon = false;
+    _getCustomerList();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    drawer: const DrawerMenuWidget(),
-    appBar: AppBar(
-      iconTheme: const IconThemeData(color: Colors.white),
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: <Color>[Colors.purple, Colors.blue],
-          ),
-        ),
-      ),
-      actions: AppbarActionMenu.actionFun(context),
-    ),
-    body: Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            alignment: Alignment.center,
+        drawer: const DrawerMenuWidget(),
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -59,350 +51,476 @@ class _salesManagementPage extends State<salesManagementPage> {
                 colors: <Color>[Colors.purple, Colors.blue],
               ),
             ),
-            padding: const EdgeInsets.only(top: 5, bottom: 17),
-            child: const Text(
-              "Sales Management",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40),
-            ),
           ),
+          actions: AppbarActionMenu.actionFun(context),
         ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          child: Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width),
-                  child: DataTable(
-                      columns: const [
-                        DataColumn(
-                            label: Text(
-                              "#Sales ID",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        DataColumn(
-                            label: Text(
-                              "Product Name",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        DataColumn(
-                            label: Text(
-                              "Unit Price",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        DataColumn(
-                            label: Text(
-                              "Quanity",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        DataColumn(
-                            label: Text(
-                              "Total",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        DataColumn(
-                            label: Text(
-                              "Customer Name",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-
-                        DataColumn(label: Text("")),
-                      ],
-                      rows: salesList
-                          .map((data) => DataRow(cells: [
-                        DataCell(Text("#${data.id}",
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.blue,
-                            ))),
-                        DataCell(Text(
-                          data.productname,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Text(
-                          data.quantity,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Text(
-                          data.unitprice,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Text(
-                          data.total,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Text(
-                          data.customer,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Row(
-                          children: [
-                            InkWell(
-                                onTap: () => {
-                                  _createNewOrUpdateSales(data)
-                                },
-                                child: const Icon(Icons.edit,
-                                    color: Colors.green)),
-                            const SizedBox(width: 10),
-                            InkWell(
-                                onTap: () => {
-                                  _showDeleteConfirmDialog(
-                                      data.firebaseId, context)
-                                },
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                )),
-                          ],
-                        ))
-                      ]))
-                          .toList()),
+        body: Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[Colors.purple, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.only(top: 5, bottom: 17),
+                child: const Text(
+                  "Sales",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40),
                 ),
               ),
             ),
-          ),
-        ),
-        Visibility(
-          visible: loadingIcon,
-          child: const CircularProgressIndicator(),
-        )
-      ],
-    ),
-    floatingActionButton: FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () => {_createNewOrUpdateSales()},
-    ),
-  );
-
-Future _getSalesList() async {
-  var map = await Firestore.instance.collection("sales").get();
-  salesList.clear();
-  List<salesDataModel> apiList = [];
-  for (var element in map) {
-    apiList.add(salesDataModel(
-        element.id,
-        element["id"],
-        element["productname"],
-        element["quantity"].toString(),
-        element["unitprice"],
-        element["total"],
-        element["customer"]));
-  }
-
-
-  setState(() {
-    salesList.clear();
-    salesList = apiList;
-    loadingIcon = false;
-  });
-}
-
-void _showDeleteConfirmDialog(String firebaseId, BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-          title: const Text(
-            "Are you sure?",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          content: const Text(
-            "Would you like to delete?",
-            style: TextStyle(fontSize: 18),
-          ),
-          actions: [
-            TextButton(
-              child: const Text("Cancel"),
-              onPressed: () {
-                _popDialog(context);
-              },
-            ),
-            TextButton(
-              child: const Text("Confirm"),
-              onPressed: () {
-                _deleteSales(firebaseId, context);
-                _popDialog(context);
-              },
-            ),
-          ]));
-}
-
-//delete sales
-void _deleteSales(String firebaseId, context) async {
-  Firestore.instance.collection("sales").document(firebaseId).delete();
-  setState(() {
-    loadingIcon = true;
-  });
-  _getSalesList();
-  _popDialog(context);
-}
-
-//new SalesDialog
-void _createNewOrUpdateSales([salesDataModel? data]) {
-  Map<String, dynamic> SalesMap = {};
-  showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title:
-        Text(data == null ? "Add New Vendor" : "Update Vendor Data"),
-        content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Wrap(alignment: WrapAlignment.start, children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.5,
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: Column(children: [
-                    Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            Visibility(
-                                visible: data != null,
-                                child: Text(
-                                  "Sales #ID: "
-                                      "${data?.id}",
-                                  style: const TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                            TextFormField(
-                              initialValue: data?.productname,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.person),
-                                  errorText: errorText,
-                                  hintText: "Product name"),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Can't be empty";
-                                } else {
-                                  SalesMap["productname"] = value;
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: data?.quantity,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.email),
-                                  errorText: errorText,
-                                  hintText: "Quanity"),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Can't be empty";
-                                } else {
-                                  SalesMap["quanity"] = value;
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: data?.unitprice,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.money_rounded),
-                                  errorText: errorText,
-                                  hintText: "Unit Price"),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Can't be empty";
-                                } else {
-                                  SalesMap["unitprice"] = value;
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: data?.total,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.equalizer_rounded),
-                                  errorText: errorText,
-                                  hintText: "Total"),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Can't be empty";
-                                } else {
-                                  SalesMap["total"] = value;
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: data?.customer,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.person),
-                                  errorText: errorText,
-                                  hintText: "Customer Name"),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Can't be empty";
-                                } else {
-                                  SalesMap["customer"] = value;
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            ElevatedButton(
-                              onPressed: () => {
-                                if (_formKey.currentState!.validate())
-                                  {_saveToDB(data, SalesMap, context)}
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  shape: const StadiumBorder(),
-                                  padding: const EdgeInsets.all(20)),
-                              child: Text(
-                                data == null ? "Submit" : "Update",
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ],
-                        )),
-                  ]),
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width),
+                    child: DataTable(
+                        columns: const [
+                          DataColumn(
+                              label: Text(
+                            "#Seles ID",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Date",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Product #ID",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Product Name",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Customer #ID",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Customer Name",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Items",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Unit Price",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Profit Per Unit",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            "Total Price",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                        ],
+                        rows: salesList
+                            .map((data) => DataRow(cells: [
+                                  DataCell(Text("#${data.id}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                      ))),
+                                  DataCell(Text(
+                                    data.date,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text("#${data.productId}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                      ))),
+                                  DataCell(Text(
+                                    data.productName,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text("#${data.customerID}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                      ))),
+                                  DataCell(Text(
+                                    data.customerName,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    data.quantitiy,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    data.unitPrice,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    data.profit,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    data.totalPrice,
+                                    style: const TextStyle(fontSize: 15),
+                                  ))
+                                ]))
+                            .toList()),
+                  ),
                 ),
-              ]);
-            }),
-      ));
-}
+              ),
+            ),
+            Visibility(
+                visible: loadingIcon, child: const CircularProgressIndicator())
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => {_createNewOrUpdateInventory()},
+        ),
+      );
 
-void _saveToDB(salesDataModel? data, Map<String, dynamic> SalesMap,
-    BuildContext context) async {
-  if (data == null) {
-    SalesMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
-    await Firestore.instance.collection("sales").add(SalesMap);
+  void _createNewOrUpdateInventory() {
+    Map<String, dynamic> salesMap = {};
+    InventoryDataModel? selectedProductItem;
+    customerDataModel? selectedCustomerItem;
+    editabeQuantity = 0;
+    totalAmountState = 0;
+    profitPerUnit = 0;
+    perUnitPrice = 0;
+     existingQuantity = 0;
+
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Add New Sales"),
+              content: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                return Wrap(alignment: WrapAlignment.start, children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    padding: const EdgeInsets.only(left: 50, right: 50),
+                    child: Column(children: [
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    const Text("Customer: "),
+                                    const SizedBox(width: 20),
+                                    DropdownButton(
+                                        hint: const Text("Select Customer"),
+                                        value: selectedCustomerItem,
+                                        items: customerList
+                                            .map((item) => DropdownMenuItem(
+                                                value: item,
+                                                child: Text(
+                                                    "${item.name} (#ID ${item.id})")))
+                                            .toList(),
+                                        onChanged: (item) => {
+                                              setState(() {
+                                                selectedCustomerItem =
+                                                    item as customerDataModel?;
+                                              }),
+                                              salesMap["Customer_iD"] =
+                                                  (item as customerDataModel)
+                                                      .id,
+                                              salesMap["customer_name"] =
+                                                  (item).name
+                                            }),
+                                  ]),
+                              Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    const Text("Products: "),
+                                    const SizedBox(width: 20),
+                                    DropdownButton(
+                                        hint: const Text("Select Product"),
+                                        value: selectedProductItem,
+                                        items: inventoryList
+                                            .map((item) => DropdownMenuItem(
+                                                value: item,
+                                                child: Text(
+                                                    "${item.name} (#ID ${item.id})")))
+                                            .toList(),
+                                        onChanged: (item) => {
+                                              setState(() {
+                                                editabeQuantity=0;
+                                                selectedProductItem =
+                                                    item as InventoryDataModel;
+                                                perUnitPrice =
+                                                    int.parse(item.unitPrice);
+                                                existingQuantity = int.parse(item.items);
+                                              }),
+                                              salesMap["product_id"] =
+                                                  (item as InventoryDataModel)
+                                                      .id,
+                                              salesMap["unit_price"] =
+                                                  item.unitPrice,
+                                              salesMap["product_name"] =
+                                                  (item).name,
+                                          inventoryFireId=item.firebaseId,
+                                            }),
+                                  ]),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: const InputDecoration(
+                                    prefixIcon: Icon(Icons.attach_money),
+                                    errorText: errorText,
+                                    hintText: "Per unit profit"),
+                                onChanged: (value) => {
+                                  setState(() {
+                                    profitPerUnit = int.parse(value);
+                                    totalAmountState =
+                                        ((editabeQuantity * perUnitPrice)) +
+                                            ((profitPerUnit * editabeQuantity));
+                                  })
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Can't be empty";
+                                  } else {
+                                    profitPerUnit = int.parse(value);
+                                    salesMap["profit"] = value;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Quantity: "),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  InkWell(
+                                    onTap: () => {
+                                      setState(() {
+                                        if (editabeQuantity != 0) {
+                                          --editabeQuantity;
+                                        }
+                                        totalAmountState = ((editabeQuantity *
+                                                perUnitPrice)) +
+                                            ((profitPerUnit * editabeQuantity));
+                                      })
+                                    },
+                                    child: const Icon(
+                                        Icons.remove_circle_outlined),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    decoration:
+                                        BoxDecoration(border: Border.all()),
+                                    width: 50,
+                                    child: TextFormField(
+                                      onChanged: (value) => {
+                                        editabeQuantity = int.parse(value),
+                                        setState(() {
+                                          totalAmountState = ((editabeQuantity *
+                                                  perUnitPrice)) +
+                                              ((profitPerUnit *
+                                                  editabeQuantity));
+                                        })
+                                      },
+                                      key: Key(editabeQuantity.toString()),
+                                      textAlign: TextAlign.center,
+                                      initialValue: editabeQuantity.toString(),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          editabeQuantity = 0;
+                                        } else {
+                                          editabeQuantity = int.parse(value);
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  InkWell(
+                                    onTap: () => {
+                                      setState(() {
+                                        if (editabeQuantity < existingQuantity) {
+                                          ++editabeQuantity;
+                                        }
+                                        totalAmountState = ((editabeQuantity *
+                                                perUnitPrice)) +
+                                            ((profitPerUnit * editabeQuantity));
+                                      })
+                                    },
+                                    child:
+                                        const Icon(Icons.add_circle_outlined),
+                                  ),
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    "Total Amount: " +
+                                        (totalAmountState).toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  if (_formKey.currentState!.validate())
+                                    {_saveToDB(salesMap), _popDialog(context)}
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: const StadiumBorder(),
+                                    padding: const EdgeInsets.all(20)),
+                                child: const Text(
+                                  "Submit",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ]),
+                  ),
+                ]);
+              }),
+            ));
+  }
+
+  //get vendor item
+  Future _getInventoryList() async {
+    _getSalesList();
+    var map = await Firestore.instance.collection("inventory").get();
+    inventoryList.clear();
+    List<InventoryDataModel> apiList = [];
+    apiList.clear();
+    for (var element in map) {
+      apiList.add(InventoryDataModel(
+          element["id"],
+          element.id,
+          element["model"],
+          element["name"],
+          element["description"],
+          element["vendor"],
+          element["country"],
+          element["quantity"].toString(),
+          element["vendorId"],
+          element["unitPrice"].toString()));
+    }
     setState(() {
-      loadingIcon = true;
+      loadingIcon = false;
+      inventoryList.clear();
+      inventoryList = apiList;
     });
-    _getSalesList();
-  } else {
-    await Firestore.instance
-        .collection("sales")
-        .document(data.firebaseId)
-        .update(SalesMap);
-    _getSalesList();
+  }
+
+  void _saveToDB(Map<String, dynamic> salesMap) async {
+    salesMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
+    salesMap["profit"] = profitPerUnit;
+    salesMap["total_price"] = totalAmountState;
+    salesMap["date"] = getDate();
+    salesMap["quantity"] = editabeQuantity;
+    await Firestore.instance.collection("sales").add(salesMap);
+    _updateInventory();
     setState(() {
       loadingIcon = true;
     });
   }
-  _popDialog(context);
+
+  Future _getCustomerList() async {
+    var map = await Firestore.instance.collection("customer").get();
+    _getInventoryList();
+    List<customerDataModel> apiList = [];
+    for (var element in map) {
+      apiList.add(customerDataModel(
+          element["id"],
+          element.id,
+          element["name"],
+          element["company"],
+          element["email"],
+          element["phonenumber"],
+          element["totaltransaction"]));
+    }
+    setState(() {
+      customerList.clear();
+      customerList = apiList;
+      loadingIcon = false;
+    });
+  }
+
+  void _popDialog(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.of(context, rootNavigator: true).pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
+    }
+  }
+
+//saveToInventory
+void _updateInventory() async {
+    Map<String,dynamic> myMap = {};
+    myMap["quantity"]=  existingQuantity- editabeQuantity;
+    await Firestore.instance.collection("inventory").document(inventoryFireId).update(myMap);
+    _getSalesList();
 }
 
-void _popDialog(BuildContext context) {
-  if (Navigator.canPop(context)) {
-    Navigator.of(context, rootNavigator: true).pop(context);
-  } else {
-    Navigator.pushReplacementNamed(context, MyRoutes.salesRoute);
+  void _getSalesList() async {
+    var map = await Firestore.instance.collection("sales").get();
+    // _getInventoryList();
+    List<SalesDataModel> apiList = [];
+    for (var element in map) {
+      apiList.add(SalesDataModel(
+          element["id"],
+          element.id,
+          element["Customer_iD"],
+          element["customer_name"],
+          element["date"],
+          element["product_id"],
+          element["product_name"],
+          element["quantity"].toString(),
+          element["unit_price"].toString(),
+          element["total_price"].toString(),
+          element["profit"].toString()));
+    }
+    setState(() {
+      salesList.clear();
+      salesList = apiList;
+      loadingIcon = false;
+    });
   }
-}
+
+//getDate
+  String getDate() {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(now);
+  }
 }

@@ -437,7 +437,7 @@ class _ManagementState extends State<UserManagementPage> {
                                   if (value!.isEmpty) {
                                     return "Can't be empty";
                                   } else {
-                                    userMap[DataKey.email] = value ?? "";
+                                    userMap[DataKey.email] = value;
                                   }
                                   return null;
                                 },
@@ -454,7 +454,7 @@ class _ManagementState extends State<UserManagementPage> {
                                   if (value!.isEmpty) {
                                     return "Can't be empty";
                                   } else {
-                                    userMap[DataKey.password] = value ?? "";
+                                    userMap[DataKey.password] = value;
                                   }
                                   return null;
                                 },
@@ -495,7 +495,7 @@ class _ManagementState extends State<UserManagementPage> {
                                     if (value!.isEmpty && isAdmin == true) {
                                       return "Can't be empty";
                                     } else {
-                                      userMap[DataKey.adminPass] = value ?? "";
+                                      userMap[DataKey.adminPass] = value;
                                     }
                                     return null;
                                   },
