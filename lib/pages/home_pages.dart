@@ -1,11 +1,32 @@
+import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 
-class HomePage extends StatelessWidget {
+int shelf = 0;
+int supplier = 0;
+int customer = 0;
+int totalSales = 0;
+int numberOfPurchase = 0;
+int totalPurchaseAmount = 0;
+int totalSellAmount = 0;
+int totalProfitAmount = 0;
+
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getAllData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,39 +44,32 @@ class HomePage extends StatelessWidget {
         ),
         actions: AppbarActionMenu.actionFun(context),
       ),
-      body:
-      Column(children: [
-
-      SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: <Color>[Colors.purple, Colors.blue],
+      body: Column(children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[Colors.purple, Colors.blue],
+              ),
+            ),
+            padding: const EdgeInsets.only(top: 5, bottom: 17),
+            child: const Text(
+              "Dashboard",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40),
+            ),
           ),
         ),
-        padding: const EdgeInsets.only( top: 5, bottom: 17),
-        child: const Text(
-          "Dashboard",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 40),
-        ),
-      ),
-    ),
-
-
-
-
-      Container(
-        padding: const EdgeInsets.all(20),
-        color: Colors.white,
-        child:
-          Column(
+        Container(
+          padding: const EdgeInsets.all(20),
+          color: Colors.white,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -79,15 +93,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$shelf",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -96,9 +110,10 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.cube_box_fill,
+                                            child: const Icon(
+                                                CupertinoIcons.cube_box_fill,
                                                 size: 50),
                                           )
                                         ]),
@@ -106,7 +121,7 @@ class HomePage extends StatelessWidget {
                                       height: 30,
                                     ),
                                     const Text(
-                                      "Total Shelfs",
+                                      "Total Shelf's",
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.black),
                                     )
@@ -127,15 +142,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$supplier",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -144,9 +159,10 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.group_solid,
+                                            child: const Icon(
+                                                CupertinoIcons.group_solid,
                                                 size: 50),
                                           )
                                         ]),
@@ -175,15 +191,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$customer",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -192,9 +208,10 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.person_solid,
+                                            child: const Icon(
+                                                CupertinoIcons.person_solid,
                                                 size: 50),
                                           )
                                         ]),
@@ -223,15 +240,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$totalSales",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -240,9 +257,10 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.cart_badge_minus,
+                                            child: const Icon(
+                                                CupertinoIcons.cart_badge_minus,
                                                 size: 50),
                                           )
                                         ]),
@@ -271,15 +289,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$numberOfPurchase",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -288,9 +306,10 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.cart_badge_plus,
+                                            child: const Icon(
+                                                CupertinoIcons.cart_badge_plus,
                                                 size: 50),
                                           )
                                         ]),
@@ -319,15 +338,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$totalPurchaseAmount",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -336,9 +355,11 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.money_dollar_circle,
+                                            child: const Icon(
+                                                CupertinoIcons
+                                                    .money_dollar_circle,
                                                 size: 50),
                                           )
                                         ]),
@@ -367,15 +388,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$totalSellAmount",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -384,9 +405,11 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.money_dollar_circle_fill,
+                                            child: const Icon(
+                                                CupertinoIcons
+                                                    .money_dollar_circle_fill,
                                                 size: 50),
                                           )
                                         ]),
@@ -415,15 +438,15 @@ class HomePage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(20),
                               child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "+10",
-                                            style: TextStyle(
+                                          Text(
+                                            "+$totalProfitAmount",
+                                            style: const TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
@@ -432,9 +455,11 @@ class HomePage extends StatelessWidget {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(50),
+                                                    BorderRadius.circular(50),
                                                 color: Colors.white12),
-                                            child: const Icon(CupertinoIcons.bag_fill_badge_plus,
+                                            child: const Icon(
+                                                CupertinoIcons
+                                                    .bag_fill_badge_plus,
                                                 size: 50),
                                           )
                                         ]),
@@ -523,11 +548,60 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
-       )
-
-
+        )
       ]),
       drawer: const DrawerMenuWidget(),
     );
+  }
+
+  //getData
+  void _getAllData() async {
+    shelf = 0;
+    supplier = 0;
+    customer = 0;
+    totalSales = 0;
+    numberOfPurchase = 0;
+    totalPurchaseAmount = 0;
+    totalSellAmount = 0;
+    totalProfitAmount = 0;
+
+    //inventory
+    var map = await Firestore.instance.collection("inventory").get();
+    setState(() {
+      numberOfPurchase = map.length;
+    });
+    for (var element in map) {
+      setState(() {
+        shelf += element["quantity"] as int;
+        totalPurchaseAmount +=
+            int.parse(element["unitPrice"]) * element["quantity"] as int;
+      });
+    }
+
+    //customer
+    var map2 = await Firestore.instance.collection("customer").get();
+    setState(() {
+      customer = map2.length;
+    });
+
+    //supplier
+    var map3 = await Firestore.instance.collection("vendors").get();
+    setState(() {
+      supplier = map3.length;
+    });
+
+    //sales
+    var map4 = await Firestore.instance.collection("sales").get();
+    setState(() {
+      totalSales = map4.length;
+    });
+
+    for (var element in map4) {
+      setState(() {
+        totalProfitAmount += element["profit"] * element["quantity"] as int;
+        totalSellAmount +=
+            int.parse(element["unit_price"]) * element["quantity"] as int;
+      });
+    }
   }
 }

@@ -553,12 +553,10 @@ class _PurchasePage extends State<PurchasePage> {
               .update(purchaseItem);
         }
       }
-
     } else {
       await Firestore.instance.collection("inventory").add(purchaseItem);
     }
   }
-
   //getDate
   String getDate() {
     final DateTime now = DateTime.now();
