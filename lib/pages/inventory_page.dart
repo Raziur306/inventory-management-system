@@ -28,7 +28,6 @@ class _InventoryPage extends State<InventoryPage> {
     super.didChangeDependencies();
     if (inventoryList.isNotEmpty) loadingIcon = false;
     _getInventoryList();
-    _getVendorList();
   }
 
   @override
@@ -120,8 +119,7 @@ class _InventoryPage extends State<InventoryPage> {
                               label: Text(
                             "Status",
                             style: TextStyle(fontSize: 18),
-                          )),
-                          DataColumn(label: Text("")),
+                          ))
                         ],
                         rows: inventoryList
                             .map((data) => DataRow(cells: [
@@ -154,7 +152,7 @@ class _InventoryPage extends State<InventoryPage> {
                                     data.items,
                                     style: const TextStyle(fontSize: 15),
                                   )),
-                                  DataCell(int.parse(data.items) == 0
+                                  DataCell(data.items == 0
                                       ? (Container(
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
@@ -254,28 +252,6 @@ class _InventoryPage extends State<InventoryPage> {
                                                   )
                                                 ],
                                               ))))),
-                                  DataCell(Row(
-                                    children: [
-                                      InkWell(
-                                          onTap: () => {
-                                                item = int.parse(data.items),
-                                                _createNewOrUpdateInventory(
-                                                    data)
-                                              },
-                                          child: const Icon(Icons.edit,
-                                              color: Colors.green)),
-                                      const SizedBox(width: 10),
-                                      InkWell(
-                                          onTap: () => {
-                                                _showDeleteConfirmDialog(
-                                                    data.firebaseId)
-                                              },
-                                          child: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          )),
-                                    ],
-                                  ))
                                 ]))
                             .toList()),
                   ),
@@ -288,293 +264,13 @@ class _InventoryPage extends State<InventoryPage> {
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => {item = 0, _createNewOrUpdateInventory()},
+          onPressed: () => {
+            MyRoutes.selectedIndex = 2,
+            Navigator.pushReplacementNamed(context, MyRoutes.purchaseRoute)
+          },
         ),
       );
 
-  void _createNewOrUpdateInventory([InventoryDataModel? data]) {
-    Map<String, dynamic> inventoryMap = {};
-    VendorDataModel? selectedVendor = data != null
-        ? vendorList.firstWhere((element) => element.id == data.vendorId)
-        : null;
-
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title:
-                  Text(data == null ? "Add New Vendor" : "Update Vendor Data"),
-              content: StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                return Wrap(alignment: WrapAlignment.start, children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    padding: const EdgeInsets.only(left: 50, right: 50),
-                    child: Column(children: [
-                      Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              Visibility(
-                                  visible: data != null,
-                                  child: Text(
-                                    "Vendor #ID: "
-                                    "${data?.id}",
-                                    style: const TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              TextFormField(
-                                initialValue: data?.model,
-                                decoration: const InputDecoration(
-                                    prefixIcon: Icon(CupertinoIcons.gear),
-                                    errorText: errorText,
-                                    hintText: "Model number"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Can't be empty";
-                                  } else {
-                                    inventoryMap["model"] = value;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                initialValue: data?.name,
-                                decoration: const InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.insert_drive_file_outlined),
-                                    errorText: errorText,
-                                    hintText: "Product name"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Can't be empty";
-                                  } else {
-                                    inventoryMap["name"] = value;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                initialValue: data?.description,
-                                decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.info),
-                                    errorText: errorText,
-                                    hintText: "Product description"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Can't be empty";
-                                  } else {
-                                    inventoryMap["description"] = value;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                initialValue: data?.country,
-                                decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.card_membership),
-                                    errorText: errorText,
-                                    hintText: "Country of origin"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Can't be empty";
-                                  } else {
-                                    inventoryMap["country"] = value;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              Wrap(
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    Text("Vendor: "),
-                                    const SizedBox(width: 20),
-                                    DropdownButton(
-                                        hint: const Text("Select Vendor"),
-                                        value: selectedVendor,
-                                        items: vendorList
-                                            .map((item) => DropdownMenuItem(
-                                                value: item,
-                                                child: Text(
-                                                    "${item.name} (#ID ${item.id})")))
-                                            .toList(),
-                                        onChanged: (item) => {
-                                              setState(() {
-                                                selectedVendor =
-                                                    item as VendorDataModel?;
-                                              }),
-                                              inventoryMap["vendorId"] =
-                                                  (item as VendorDataModel).id,
-                                              inventoryMap["vendor"] =
-                                                  (item).name
-                                            }),
-                                  ]),
-                              Row(
-                                children: [
-                                  const Text("Quantity: "),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  InkWell(
-                                    onTap: () => {
-                                      setState(() {
-                                        if (item != 0) --item;
-                                      })
-                                    },
-                                    child: const Icon(
-                                        Icons.remove_circle_outlined),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                    decoration:
-                                        BoxDecoration(border: Border.all()),
-                                    width: 50,
-                                    child: TextFormField(
-                                      key: Key(item.toString()),
-                                      textAlign: TextAlign.center,
-                                      initialValue: item.toString(),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          item = 0;
-                                        } else {
-                                          item = int.parse(value);
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  InkWell(
-                                    onTap: () => {
-                                      setState(() {
-                                        ++item;
-                                      })
-                                    },
-                                    child:
-                                        const Icon(Icons.add_circle_outlined),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              ElevatedButton(
-                                onPressed: () => {
-                                  if (_formKey.currentState!.validate())
-                                    {
-                                      _saveToDB(data, inventoryMap),
-                                      _popDialog(context)
-                                    }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    shape: const StadiumBorder(),
-                                    padding: const EdgeInsets.all(20)),
-                                child: Text(
-                                  data == null ? "Submit" : "Update",
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ]),
-                  ),
-                ]);
-              }),
-            ));
-  }
-
-  void _showDeleteConfirmDialog(String firebaseId) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-                title: const Text(
-                  "Are you sure?",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                content: const Text(
-                  "Would you like to delete?",
-                  style: TextStyle(fontSize: 18),
-                ),
-                actions: [
-                  TextButton(
-                    child: const Text("Cancel"),
-                    onPressed: () {
-                      _popDialog(context);
-                    },
-                  ),
-                  TextButton(
-                    child: const Text("Confirm"),
-                    onPressed: () {
-                      _deleteInventoryItem(firebaseId);
-                      _popDialog(context);
-                    },
-                  ),
-                ]));
-  }
-
-  //get vendor item
-  Future _getVendorList() async {
-    var map = await Firestore.instance.collection("vendors").get();
-    vendorList.clear();
-    List<VendorDataModel> apiList = [];
-    for (var element in map) {
-      apiList.add(VendorDataModel(
-          element.id,
-          element["id"],
-          element["name"],
-          element["email"],
-          element["phone"],
-          element["company"],
-          element["website"],
-          element["country"]));
-    }
-    setState(() {
-      loadingIcon = false;
-      vendorList.clear();
-      vendorList = apiList;
-    });
-  }
-
-  //delete inventory item
-  void _deleteInventoryItem(String firebaseId) async {
-    Firestore.instance.collection("inventory").document(firebaseId).delete();
-    setState(() {
-      loadingIcon = true;
-    });
-
-    inventoryList.clear();
-    _getVendorList();
-    _getInventoryList();
-  }
-
-  void _saveToDB(
-      InventoryDataModel? data, Map<String, dynamic> vendorMap) async {
-    vendorMap["items"] = item;
-    if (data == null) {
-      vendorMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
-      await Firestore.instance.collection("inventory").add(vendorMap);
-      setState(() {
-        loadingIcon = true;
-      });
-      _getVendorList();
-      _getInventoryList();
-    } else {
-      await Firestore.instance
-          .collection("inventory")
-          .document(data.firebaseId)
-          .update(vendorMap);
-
-      setState(() {
-        loadingIcon = true;
-      });
-      _getVendorList();
-      _getInventoryList();
-    }
-  }
 
   //fetching inventory data
   Future _getInventoryList() async {
@@ -591,7 +287,7 @@ class _InventoryPage extends State<InventoryPage> {
           element["description"],
           element["vendor"],
           element["country"],
-          element["items"].toString(),
+          element["quantity"].toString(),
           element["vendorId"]));
     }
     setState(() {
@@ -599,13 +295,5 @@ class _InventoryPage extends State<InventoryPage> {
       inventoryList.clear();
       inventoryList = apiList;
     });
-  }
-
-  void _popDialog(BuildContext context) {
-    if (Navigator.canPop(context)) {
-      Navigator.of(context, rootNavigator: true).pop(context);
-    } else {
-      Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
-    }
   }
 }

@@ -1,19 +1,21 @@
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:inventory_management_system/pages/vendor_management_page.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
 
+import '../model/inventoryModel.dart';
 import '../model/purchaseModel.dart';
 import '../model/vendorModel.dart';
 import '../utils/routes.dart';
 
 //global variable
 final _formKey = GlobalKey<FormState>();
-List<PurchaseModel> inventoryList = [];
+List<PurchaseModel> purchaseList = [];
 List<VendorDataModel> vendorList = [];
-int item = 0;
+int editabeQuantity = 0;
 
 class PurchasePage extends StatefulWidget {
   const PurchasePage({Key? key}) : super(key: key);
@@ -26,7 +28,7 @@ class _PurchasePage extends State<PurchasePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (inventoryList.isNotEmpty) loadingIcon = false;
+    if (purchaseList.isNotEmpty) loadingIcon = false;
     _getPurchaseList();
     _getVendorList();
   }
@@ -88,6 +90,11 @@ class _PurchasePage extends State<PurchasePage> {
                           )),
                           DataColumn(
                               label: Text(
+                            "Date",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          DataColumn(
+                              label: Text(
                             "Model",
                             style: TextStyle(fontSize: 18),
                           )),
@@ -123,13 +130,17 @@ class _PurchasePage extends State<PurchasePage> {
                           )),
                           DataColumn(label: Text("")),
                         ],
-                        rows: inventoryList
+                        rows: purchaseList
                             .map((data) => DataRow(cells: [
                                   DataCell(Text("#${data.id}",
                                       style: const TextStyle(
                                         fontSize: 15,
                                         color: Colors.blue,
                                       ))),
+                                  DataCell(Text(
+                                    data.date,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
                                   DataCell(Text(
                                     data.model,
                                     style: const TextStyle(fontSize: 15),
@@ -159,7 +170,8 @@ class _PurchasePage extends State<PurchasePage> {
                                     children: [
                                       InkWell(
                                           onTap: () => {
-                                                item = int.parse(data.quantity),
+                                                editabeQuantity =
+                                                    int.parse(data.quantity),
                                                 _createNewOrUpdateInventory(
                                                     data)
                                               },
@@ -189,7 +201,7 @@ class _PurchasePage extends State<PurchasePage> {
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => {item = 0, _createNewOrUpdateInventory()},
+          onPressed: () => {editabeQuantity = 0, _createNewOrUpdateInventory()},
         ),
       );
 
@@ -334,7 +346,8 @@ class _PurchasePage extends State<PurchasePage> {
                                   InkWell(
                                     onTap: () => {
                                       setState(() {
-                                        if (item != 0) --item;
+                                        if (editabeQuantity != 0)
+                                          --editabeQuantity;
                                       })
                                     },
                                     child: const Icon(
@@ -349,15 +362,15 @@ class _PurchasePage extends State<PurchasePage> {
                                     width: 50,
                                     child: TextFormField(
                                       onChanged: (value) =>
-                                          {item = int.parse(value)},
-                                      key: Key(item.toString()),
+                                          {editabeQuantity = int.parse(value)},
+                                      key: Key(editabeQuantity.toString()),
                                       textAlign: TextAlign.center,
-                                      initialValue: item.toString(),
+                                      initialValue: editabeQuantity.toString(),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          item = 0;
+                                          editabeQuantity = 0;
                                         } else {
-                                          item = int.parse(value);
+                                          editabeQuantity = int.parse(value);
                                         }
                                         return null;
                                       },
@@ -369,7 +382,7 @@ class _PurchasePage extends State<PurchasePage> {
                                   InkWell(
                                     onTap: () => {
                                       setState(() {
-                                        ++item;
+                                        ++editabeQuantity;
                                       })
                                     },
                                     child:
@@ -455,6 +468,7 @@ class _PurchasePage extends State<PurchasePage> {
       vendorList.clear();
       vendorList = apiList;
     });
+    _getPurchaseList();
   }
 
   //delete inventory item
@@ -464,39 +478,37 @@ class _PurchasePage extends State<PurchasePage> {
       loadingIcon = true;
     });
 
-    inventoryList.clear();
+    purchaseList.clear();
     _getVendorList();
     _getPurchaseList();
   }
 
-  void _saveToDB(PurchaseModel? data, Map<String, dynamic> vendorMap) async {
-    vendorMap["quantity"] = item;
+  void _saveToDB(PurchaseModel? data, Map<String, dynamic> purchaseItem) async {
+    purchaseItem["date"] = getDate();
+    purchaseItem["quantity"] = editabeQuantity;
     if (data == null) {
-      vendorMap["id"] = DateTime.now().millisecondsSinceEpoch.toString();
-      await Firestore.instance.collection("purchase").add(vendorMap);
+      purchaseItem["id"] = DateTime.now().millisecondsSinceEpoch.toString();
+      await Firestore.instance.collection("purchase").add(purchaseItem);
+      _saveInventory(purchaseItem, false);
       setState(() {
         loadingIcon = true;
       });
-      _getVendorList();
-      _getPurchaseList();
     } else {
       await Firestore.instance
           .collection("purchase")
           .document(data.firebaseId)
-          .update(vendorMap);
-
+          .update(purchaseItem);
+      _saveInventory(purchaseItem, true);
       setState(() {
         loadingIcon = true;
       });
-      _getVendorList();
-      _getPurchaseList();
     }
   }
 
   //fetching inventory data
   Future _getPurchaseList() async {
     var map = await Firestore.instance.collection("purchase").get();
-    inventoryList.clear();
+    purchaseList.clear();
     List<PurchaseModel> apiList = [];
     apiList.clear();
     for (var element in map) {
@@ -510,12 +522,13 @@ class _PurchasePage extends State<PurchasePage> {
           element["vendor"],
           element["vendorId"],
           element["description"],
-          element["country"]));
+          element["country"],
+          element["date"]));
     }
     setState(() {
       loadingIcon = false;
-      inventoryList.clear();
-      inventoryList = apiList;
+      purchaseList.clear();
+      purchaseList = apiList;
     });
   }
 
@@ -525,5 +538,31 @@ class _PurchasePage extends State<PurchasePage> {
     } else {
       Navigator.pushReplacementNamed(context, MyRoutes.inventoryRoute);
     }
+  }
+
+  //saveToInventory
+  void _saveInventory(Map<String, dynamic> purchaseItem, bool bool) async {
+    _getVendorList();
+    if (bool) {
+      var map = await Firestore.instance.collection("inventory").get();
+      for (var element in map) {
+        if (element["model"].toString() == purchaseItem["model"].toString()) {
+          await Firestore.instance
+              .collection("inventory")
+              .document(element.id)
+              .update(purchaseItem);
+        }
+      }
+
+    } else {
+      await Firestore.instance.collection("inventory").add(purchaseItem);
+    }
+  }
+
+  //getDate
+  String getDate() {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(now);
   }
 }

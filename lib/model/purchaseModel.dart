@@ -8,7 +8,8 @@ class PurchaseModel {
       vendorName,
       vendorId,
       description,
-      country;
+      country,
+  date;
 
   PurchaseModel(
       this.firebaseId,
@@ -20,5 +21,6 @@ class PurchaseModel {
       this.vendorName,
       this.vendorId,
       this.description,
-      this.country);
+      this.country,
+      this.date);
 }
