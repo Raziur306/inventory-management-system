@@ -20,7 +20,7 @@ class UserManagementPage extends StatefulWidget {
 }
 
 //variables
-late var isAdmin;
+ var isAdmin=false;
 List<UserDataModel> userList = <UserDataModel>[];
 final _formKey = GlobalKey<FormState>();
 
@@ -211,7 +211,7 @@ class _ManagementState extends State<UserManagementPage> {
 
   //user edit dialog
   userEditDialog(BuildContext context,[ UserDataModel? data]) {
-    isAdmin = data?.isAdmin;
+    isAdmin = data?.isAdmin??false;
     bool errorMessageVisibility = false;
     Map<String, dynamic> userMap = {};
     showDialog(
