@@ -466,8 +466,7 @@ class _SalesManagementPage extends State<SalesManagementPage> {
           element["name"],
           element["company"],
           element["email"],
-          element["phonenumber"],
-          element["totaltransaction"]));
+          element["phonenumber"]));
     }
     setState(() {
       customerList.clear();

@@ -102,7 +102,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$shelf",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -151,7 +151,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$supplier",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -200,7 +200,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$customer",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -249,7 +249,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$totalSales",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -298,7 +298,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$numberOfPurchase",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -347,7 +347,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$totalPurchaseAmount",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -397,7 +397,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$totalSellAmount",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),
@@ -447,7 +447,7 @@ class _HomePage extends State<HomePage> {
                                           Text(
                                             "+$totalProfitAmount",
                                             style: const TextStyle(
-                                                fontSize: 80,
+                                                fontSize: 50,
                                                 fontWeight: FontWeight.w900,
                                                 color: Colors.black),
                                           ),

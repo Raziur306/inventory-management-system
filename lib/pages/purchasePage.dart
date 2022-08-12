@@ -1,6 +1,7 @@
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:inventory_management_system/pages/vendor_management_page.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
@@ -299,10 +300,13 @@ class _PurchasePage extends State<PurchasePage> {
                               ),
                               TextFormField(
                                 initialValue: data?.unitPrice,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.attach_money),
                                     errorText: errorText,
-                                    hintText: "Country of origin"),
+                                    hintText: "Unit Price"),
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Can't be empty";

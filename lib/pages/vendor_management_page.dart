@@ -1,5 +1,6 @@
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:inventory_management_system/model/vendorModel.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
@@ -318,6 +319,9 @@ class _VendorManagementPage extends State<VendorManagementPage> {
                               ),
                               TextFormField(
                                 initialValue: data?.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.phone),
                                     errorText: errorText,

@@ -1,6 +1,6 @@
 class customerDataModel {
-  String id, firebaseId, name, company, email, phonenumber, totaltransaction;
+  String id, firebaseId, name, company, email, phonenumber;
 
   customerDataModel(this.id, this.firebaseId, this.name, this.company,
-      this.email, this.phonenumber, this.totaltransaction);
+      this.email, this.phonenumber, );
 }

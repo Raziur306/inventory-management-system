@@ -1,5 +1,6 @@
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:inventory_management_system/model/customerModel.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
 import 'package:inventory_management_system/widget/drawer_menu_widget.dart';
@@ -112,12 +113,7 @@ class _CustomerPage extends State<CustomerPage> {
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             )),
-                        DataColumn(
-                            label: Text(
-                              "Total Transactions",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
+
 
                         DataColumn(label: Text("")),
                       ],
@@ -142,10 +138,6 @@ class _CustomerPage extends State<CustomerPage> {
                         )),
                         DataCell(Text(
                           data.phonenumber,
-                          style: const TextStyle(fontSize: 15),
-                        )),
-                        DataCell(Text(
-                          data.totaltransaction,
                           style: const TextStyle(fontSize: 15),
                         )),
                         DataCell(Row(
@@ -198,8 +190,7 @@ Future _getCustomerList() async {
         element["name"],
         element["company"],
         element["email"],
-        element["phonenumber"],
-        element["totaltransaction"]));
+        element["phonenumber"]));
   }
 
   setState(() {
@@ -323,6 +314,9 @@ Future _getCustomerList() async {
                               ),
                               TextFormField(
                                 initialValue: data?.phonenumber,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.phone),
                                     errorText: errorText,
@@ -336,21 +330,8 @@ Future _getCustomerList() async {
                                   return null;
                                 },
                               ),
-                              TextFormField(
-                                initialValue: data?.totaltransaction,
-                                decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.card_membership),
-                                    errorText: errorText,
-                                    hintText: "Total Transaction"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Can't be empty";
-                                  } else {
-                                    customerMap["totaltransaction"] = value;
-                                  }
-                                  return null;
-                                },
-                              ),
+
+
                               const SizedBox(
                                 height: 15,
                               ),

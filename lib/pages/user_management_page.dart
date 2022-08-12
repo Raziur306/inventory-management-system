@@ -4,6 +4,7 @@ import 'package:firedart/firestore/firestore.dart';
 import 'package:firedart/generated/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:inventory_management_system/model/userModel.dart';
 import 'package:inventory_management_system/utils/appbar_actions_menu.dart';
@@ -270,6 +271,9 @@ class _ManagementState extends State<UserManagementPage> {
                               TextFormField(
                                 initialValue:
                                    data?.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.phone),
                                     errorText: errorText,
