@@ -480,72 +480,72 @@ class _HomePage extends State<HomePage> {
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      child: const Text(
-                        "LOW STOCK ITEM LIST",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 30),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(25),
-                      decoration: const BoxDecoration(
-                          color: Colors.blueGrey,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Product Name",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Model Number",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Total Quality",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Selling Price",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Buying Price",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+              // Container(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: [
+              //       Container(
+              //         margin: const EdgeInsets.only(bottom: 20),
+              //         child: const Text(
+              //           "LOW STOCK ITEM LIST",
+              //           style: TextStyle(
+              //               color: Colors.blueAccent,
+              //               fontWeight: FontWeight.w900,
+              //               fontSize: 30),
+              //         ),
+              //       ),
+              //       Container(
+              //         padding: const EdgeInsets.all(25),
+              //         decoration: const BoxDecoration(
+              //             color: Colors.blueGrey,
+              //             borderRadius: BorderRadius.only(
+              //                 topLeft: Radius.circular(15),
+              //                 topRight: Radius.circular(15))),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: const [
+              //             Text(
+              //               "Product Name",
+              //               style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //             Text(
+              //               "Model Number",
+              //               style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //             Text(
+              //               "Total Quality",
+              //               style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //             Text(
+              //               "Selling Price",
+              //               style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //             Text(
+              //               "Buying Price",
+              //               style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //           ],
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         )
